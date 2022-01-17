@@ -1,0 +1,10 @@
+
+R = QQ[l12,l13,l14,l21,l23,l24,l31,l32,l34,l41,l42,l43,s11,s12,s13,s14,s22,s23,s24,s33,s34,s44,MonomialOrder => Eliminate 6]
+S = matrix{{s11,s12,s13,s14},{s12,s22,s23,s24},{s13,s23,s33,s34},{s14,s24,s34,s44}}
+
+L = time matrix{{0,0,0,0},{l21,0,0,0},{l31,l32,0,0},{l41,0,l43,0}}
+O = time transpose(inverse(id_(R^4) - L)) * S * inverse(id_(R^4) - L);
+I = time ideal({O_(0,1),O_(0,2),O_(1,2),O_(0,3),O_(1,3),O_(2,3), O_(0,0)-O_(1,1), O_(2,2)-O_(3,3)})
+Ivanish = time eliminate({l12,l13,l14,l21,l23,l24,l31,l32,l34,l41,l42,l43},I)
+
+
