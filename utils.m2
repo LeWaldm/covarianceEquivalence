@@ -81,8 +81,6 @@ generateDAGs = nodes -> (
             );
         );
         g := digraph(allNodes,edgesCurr);
-        edgeList = append(edgeList,edgesCurr);
-        allDags = append(allDags,g);
         
         -- only add if graph acylic
         if not(checkIsCyclic(g)) then (
@@ -196,11 +194,11 @@ compVanishingIdealAllOpt = (graphs,varianceGrouping,assumptions) -> (
             );  
         );
     ););
-    print('Done.');
+    print("Done.");
 
     print("Computing groups with equal ideals...");
     allNodes := for i from 0 to #graphs-1 list i;
-    groups = time connectedComponents(graph(allNodes, equivResults))
+    groups = time connectedComponents(graph(allNodes, equivResults));
     print("Done.");
     groups
 )
@@ -216,9 +214,10 @@ printGroups = (graphs,groups) -> (
         group = groups_i;
         if (#group > 1) then (
             groupCounter = groupCounter + 1;
+            print("-------------------------------------------------------------------");
             print(concatenate("Group ",toString(groupCounter)," (",toString(#group)," members)"));
             for j from 0 to #group-1 do (
-                print(allGraphs_(group_j));   
+                print(graphs_(group_j));   
             );
         ) else (
             noGroupCounter = noGroupCounter + 1;
@@ -226,7 +225,6 @@ printGroups = (graphs,groups) -> (
     );
     print(concatenate("Graphs without group: ",toString(noGroupCounter),"/",toString(#graphs)));
 )
-
 
 
 
