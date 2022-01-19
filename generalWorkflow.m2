@@ -7,3 +7,5 @@ env = createEnv(nodes)
 dags = time generateDAGs(nodes);
 groups = time compVanishingIdealAllOpt(dags,equalVarAss,envs);
 printGroups(dags,groups);
+
+--test git credentials
