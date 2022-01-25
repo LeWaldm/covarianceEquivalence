@@ -6,7 +6,7 @@ saveResults = (fileName,env,variancePartition,dags,ideals,groups) -> (
     
     -- add sets with 1 element to variancePartition
     nodes := env_0;
-    for i from 0 to nodes-1 do (
+    for i from 1 to nodes do (
         j := 0;
         while j < #variancePartition and not isSubset(set({i}),set(variancePartition_j)) do
             j = j + 1;       

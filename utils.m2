@@ -1,143 +1,252 @@
+-- requires package 
+needsPackage "GraphicalModels"
+needsPackage "DeterminantalRepresentations"
+needsPackage "ThreadedGB"
 
--- saves the results from a calculation into a file. 
--- If file already exists, function tests if the same env and dags in file.
--- If so, adds the variance partition and groups to the file. Else, error.
-saveResults = (fileName,env,variancePartition,dags,ideals,groups) -> (
-    
-    -- add sets with 1 element to variancePartition
-    nodes := env_0;
+-- generate environment with Ring,L,S matrices for arbitrary number of nodes 
+createEnv = nodes -> (
+    -- generate entries of L matrix
+    entriesL := "";
     for i from 0 to nodes-1 do (
-        j := 0;
-        while j < #variancePartition and not isSubset(set({i}),set(variancePartition_j)) do
-            j = j + 1;       
-        if j == #variancePartition then 
-            variancePartition = append(variancePartition,{i});
-    );           
-    
-    -- main stuff
-    if fileExists(fileName) then (
-        
-        -- load file
-        print("File already exists.");
-        fileLines = lines(get(fileName));
-        print("Loaded file.");
-        
-        -- check if environments and DAGs are the same   
-        envFile := loadPPrintList(fileLines,"env");
-        dagsFile := loadPPrintList(fileLines,"dags");
-        tmp := temporaryFileName();
-        tmp << "";
-        pprintEnvToFile(tmp,env,"env");
-        pprintListToFile(tmp,dags,"dags");
-        tmp << close;     
-        tmp2 := temporaryFileName();
-        tmp2 << "";
-        pprintEnvToFile(tmp2,envFile,"env");
-        pprintListToFile(tmp2,dagsFile,"dags");
-        tmp2 << close;             
-        if not lines(get(tmp)) == lines(get(tmp2)) then
-            error("Environment or DAGs different.");
-        print("Environment and DAGs identical.");
-
-        -- check if variance partition already in file
-        fileAllVariancePartitions = loadPPrintList(fileLines,"allVariancePartitions");
-        if isSubset(set({variancePartition}),set(fileAllVariancePartitions)) then 
-            error("VariancePartition already saved in the file.");
-      
-        -- save variancePartitions       
-        allVariancePartitions := append(fileAllVariancePartitions,variancePartition);
-        groupsFile := loadPPrintList(fileLines,"allIdenticalVanishingIdealGroups");
-        allGroups := append(groupsFile,groups);   
-        allIdealsFile := loadPPrintList(fileLines,"allVanishingIdeals");
-        allIdeals := append(allIdealsFile,ideals);
-        
-        -- save new file
-        removeFile fileName;
-        file := fileName << "";
-        pprintEnvToFile(file,envFile,"env");
-        pprintListToFile(file,allVariancePartitions,"allVariancePartitions");
-        pprintListToFile(file,allGroups,"allIdenticalVanishingIdealGroups");
-        pprintListToFile(file,allIdeals,"allVanishingIdeals"); 
-        pprintListToFile(file,dagsFile,"dags");        
-        print("Saved variance partition with its equal vanishing Ideal groups.");
-        
-    ) else (
-    
-        -- create file
-        file = fileName << "";
-        print("Created new file.");
-        
-        -- save variables
-        pprintEnvToFile(file,env,"env");
-        pprintListToFile(file,{variancePartition},"allVariancePartitions");
-        pprintListToFile(file,{groups},"allIdenticalVanishingIdealGroups");
-        pprintListToFile(file,{ideals},"allVanishingIdeals");
-        
-        -- save all dags
-        pprintListToFile(file,dags,"dags");
-        
-        -- user feedback
-        print("Added data to the file.");
-    );
-   
-    -- close file
-    file << close;
-    print("Closed file.");
-)
-
-
--- prints list with new line for each element into file
-pprintListToFile = (file,l,name) -> (
-    file << name << " := {";
-    if #l > 0 then (
-        file << endl << "    " << toString(l_0);
-        for i from 1 to #l-1 do (             
-            file << "," << endl << "    " << toString(l_i);          
+        for j from 0 to nodes-1 do (
+            if i == j then 
+                continue;
+            if not (i == 0 and j == 1) then 
+                entriesL = concatenate(entriesL,",");
+            entriesL = concatenate(entriesL,"l_",toString(i+1),toString(j+1));
         );
     );
-    file << endl << "};" << endl;
+    
+    -- generate R
+    cmmd := concatenate("QQ[",entriesL);
+    for i from 0 to nodes-1 do (
+        for j from i to nodes-1 do (
+            cmmd = concatenate(cmmd,",s_",toString(i+1),toString(j+1));
+        );
+    ); 
+    cmmd = concatenate(cmmd,",MonomialOrder => Eliminate ",toString(nodes*(nodes-1)),"]");
+    R := value(cmmd);
+    
+    -- generate S
+    cmmd = "matrix{";
+    for i from 0 to nodes-1 do (
+        if i != 0 then
+            cmmd = concatenate(cmmd,",");
+        cmmd = concatenate(cmmd,"{");
+        for j from 0 to nodes-1 do (
+            if j != 0 then 
+                cmmd = concatenate(cmmd,",");
+            if i <= j then
+                cmmd = concatenate(cmmd,"s_",toString(i+1),toString(j+1))
+            else
+                cmmd = concatenate(cmmd,"s_",toString(j+1),toString(i+1));
+        );
+        cmmd = concatenate(cmmd,"}");
+    );  
+    cmmd = concatenate(cmmd,"}");
+    S := value(cmmd);
+       
+    -- generate Lfull
+    cmmd = "matrix{";
+    for i from 0 to nodes-1 do (
+        if i != 0 then
+            cmmd = concatenate(cmmd,",");
+        cmmd = concatenate(cmmd,"{");
+        for j from 0 to nodes-1 do (
+            if j != 0 then 
+                cmmd = concatenate(cmmd,",");
+            if i == j then
+                cmmd = concatenate(cmmd,"0")
+            else
+                cmmd = concatenate(cmmd,"l_",toString(i+1),toString(j+1));
+        );
+        cmmd = concatenate(cmmd,"}");
+    );  
+    cmmd = concatenate(cmmd,"}");
+    Lfull := value(cmmd);
+    
+    -- toEliminate
+    cmmd = concatenate("{",entriesL,"}");
+    toEliminate = value(cmmd);
+    
+    -- generate output
+    {nodes,R,S,Lfull,toEliminate}
 )
 
--- prints environment in a special such that not R but the actual Ring description printed
-pprintEnvToFile = (file,env,name) -> (
-    file << name << " := {" << endl << "    " << toString(env_0);
-    file << "," << endl << "    " << toString(describe(env_1));
-    for i from 2 to #env-1 do (             
-        file << "," << endl << "    " << toString(env_i);          
-    );
-    file << endl << "};" << endl;
-)
 
--- returns list printed with pprintListToFile into file with fileLines
-loadPPrintList = (fileLines,listNameFile) -> (
-    i := 0;
-    while i < #fileLines-1 do (
-        if substring(fileLines_i,0,length(listNameFile)) == listNameFile then break;
-        i = i + 1;
+-- generates all possible n-tuple of vals (recursion not most clean ever but okay)
+generateAllCombinations = (vals,n) -> (
+    
+    result := ();
+    nVals := length(vals);
+    nComb := nVals^n;       
+    for j from 0 to nComb-1 do (
+        l := {};
+        for i from 0 to n-1 do  (
+            ind := floor(j / nVals^(n-1-i)) % nVals;           
+            l = append(l,vals_ind);
+        );
+        result = append(result,l);
     );
-    if i == #fileLines then 
-        error(concatenate("Did not find list ",listNameFile," in file."));   
-    j := i + 1;    
-    cmmnd := "{";
-    while j < #fileLines and fileLines_j != "};" do (
-        cmmnd = concatenate(cmmnd,fileLines_j);  
-        j = j + 1;
-    );
-    cmmnd = concatenate(cmmnd,"}");
-    value(cmmnd)
+    result
 )
 
 
--- loads results saved by function save results and returns them as tupel
-loadResults = (fileName) -> (
-    if not fileExists(fileName) then
-        error("File does not exist.");
-    fileLines = lines(get(fileName));
-    env = loadPPrintList(fileLines,"env");
-    allVariancePartitions = loadPPrintList(fileLines,"allVariancePartitions");
-    allIdenticalVanishingIdealGroups = loadPPrintList(fileLines,"allIdenticalVanishingIdealGroups");
-    dags = loadPPrintList(fileLines,"dags");
-    ideals = loadPPrintList(fileLines,"allVanishingIdeals");
-    (env,allVariancePartitions,allIdenticalVanishingIdealGroups,dags,ideals)
-);
+-- naive method to check if digraph is cyclic
+checkIsCyclic = G -> (    
+    gLocal := G;
+    sinkVertices := sinks(gLocal);   
+    while sinkVertices != {} do (
+        gLocal = deleteVertices(gLocal,sinkVertices);
+        sinkVertices = sinks(gLocal);
+    );
+    #vertices(gLocal) != 0 
+)
+
+
+-- generate all DAGs with certain number of nodes
+generateDAGs = nodes -> (
+
+    -- generate powerset
+    nUndirectedEdges := nodes*(nodes-1)//2;
+    allCombinations := generateAllCombinations({-1,0,1},nUndirectedEdges);
+    allNodes = for i from 1 to nodes list i;
+
+    -- extract dags
+    dags := {};
+    for comb from 0 to #allCombinations-1 list (
+        
+        -- generate graph
+        edgesCurr := {};
+        for i from 1 to nodes-1 do (
+            for j from i+1 to nodes do (
+                ind = (i-1)*(nodes-1) - (i*(i-1)//2) + j-2; -- double checked  
+                if (allCombinations_comb)_ind == 1 then (
+                    edgesCurr = append(edgesCurr,{i,j});
+                ) else ( if (allCombinations_comb)_ind == -1 then (
+                    edgesCurr = append(edgesCurr,{j,i});                
+                ););
+            );
+        );
+        g := digraph(allNodes,edgesCurr);
+        
+        -- only add if graph acylic
+        if not(checkIsCyclic(g)) then (
+            dags = append(dags,g);           
+        );
+    );
+    dags
+)
+
+
+-- function that computes the vanishing ideal of a digraph
+-- inputs:
+-- - env: environment, output from createEnv() (with env_0 being number of nodes n)
+-- - digraph: a Digraph from the graphicalModels package with nodes 0 to n-1
+-- - variancePartiton: set of sets of nodes (from 0 to n-1) with equalVariances 
+-- ways to call: 
+--   vanishingIdeal(env,digraph)
+--   vanishingIdeal(env,digraph,variancePartition)
+vanishingIdeal = args -> (
+
+    -- assignt local environment
+    n := args_0_0;
+    R := args_0_1;
+    S := args_0_2;
+    Lfull := args_0_3;
+    toEliminate := args_0_4;
+
+    -- handle input
+    g := null;
+    equalVarGroups := null;
+    if #args == 0 then error("Need environment as first argument!");
+    if #args == 1 then error("Need dags as second argument!");
+    if #args == 2 then (
+        g = args_1;
+        equalVarGroups = {};
+    ) else (
+    if #args == 3 then (
+        g = args_1;
+        equalVarGroups = args_2;     
+    ) else 
+        error("Too many arguments!");
+    );
+    L := hadamard(Lfull,adjacencyMatrix(reindexBy(g,"sort")));
+  
+    -- calculate Omega
+    O := transpose(id_(R^n) - L) * S * (id_(R^n) - L);
+    
+    -- compute vanishing polynomials from assumption: no bidirected edges
+    assNoBidirectedEdges := {};
+    for i from 0 to n-2 do (
+    	for j from i+1 to n-1 do (
+            --print(concatenate("(",toString(i),",",toString(j),")"));
+    	    assNoBidirectedEdges = join(assNoBidirectedEdges,{O_(i,j)});
+    	)
+    );
+    
+    -- compute vanishing polynomials from additional assumption about equal variance groups
+    assEqualVar := {};
+    for i from 0 to #equalVarGroups-1 do (
+    	group = equalVarGroups_i;
+    	if #group > 1 then (
+    	    for j from 0 to #group-2 do (
+                --print(concatenate("(",toString(group_j-1),"-",toString(group_(j+1)-1),")"));
+    	        polyn = O_(group_j-1,group_j-1) - O_(group_(j+1)-1,group_(j+1)-1);
+    	        assEqualVar = join(assEqualVar,{polyn});
+    	    )
+        )
+    );
+    
+    -- compute ideal
+    I := ideal(join(assNoBidirectedEdges,assEqualVar));
+    
+    -- calculate the vanishing ideal as elimination ideal by eliminating all Lambda entries
+    --eliminateParallel(toEliminate,I)
+    --elapsedTime (gb(I));
+    --elapsedTime (groebnerBasis(I, Strategy=>"MGB"));
+    --elapsedTime eliminateExpGb(toEliminate,I);
+    eliminate(toEliminate,I)
+)
+
+
+-- takes exactly two digraphs and 3rd arg variance partitionand returns if their vanishing ideals identical
+compare = (env,d1,d2,eqVarPart) -> ( 
+    vanishingIdeal(env,d1,eqVarPart) == vanishingIdeal(env,d2,eqVarPart)     
+)
+
+
+
+-- function that computes groups of graphs with identical vanishing Ideal
+-- input: set of graphs to compare as list of digraphs and 
+--        equal variance groupings as list of lists
+-- output: list of lists with groups index of graphs with identical vanishing ideal
+compVanishingIdealAll = (env,dags,eqVarPart) -> (
+    vanishingIdeals := {};
+    print("Computing and saving ideals ... ");
+    elapsedTime (for i from 0 to #dags-1 do (
+        print(concatenate(toString(i+1),"/",toString(#dags)));
+        vanishingIdeals = append(vanishingIdeals,vanishingIdeal(env,dags_i,eqVarPart));    
+    ));
+
+    -- compute groups with identical vanishingIdeal
+    print("Comparing ideals ...");
+    elapsedTime(
+    equivResults := {};
+    for i from 0 to #dags-2 do (
+        --print(concatenate(toString(i+1),"/",toString(#dags-1)));        
+        for j from i+1 to #dags-1 do(
+            if (vanishingIdeals_i == vanishingIdeals_j) then (
+                equivResults = append(equivResults,{i,j});
+            );  
+        );
+    ););
+
+    print("Computing groups with equal ideals...");
+    allNodes := for i from 0 to #dags-1 list i;
+    groups = time connectedComponents(graph(allNodes, equivResults));
+    (groups,vanishingIdeals)
+)
+
+
 
