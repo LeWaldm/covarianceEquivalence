@@ -1,1 +1,3 @@
-
+- best check lib/generalWorkflow.m2 for overview of functionality
+- all useful functions are in lib/ and all current results in results/
+- the other files are working progress
