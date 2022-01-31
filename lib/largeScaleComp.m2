@@ -2,9 +2,28 @@
 -- computes all vanishingIdeals of list of dags in environemnt env 
 -- with the variance partition in eqVarPart with a timeLimit, i.e.
 -- if a computations takes longer than timeLimit, it will be skipped.
+-- This function also uses multi threading to compute ideals in parallel.
+-- Precisely, allowableThreads-1 threads will be used.
 -- In this case, vanIdeal output will be null and the computation time -1.
 -- output: (ideals,computationTimes)
-compAllVanIdTimeLim = (env,dags,eqVarPart,timeLimit) -> (
+-- ways to call this function:
+--     compAllVanIdTimeLim(env,dags,eqVarPart,timeLimit)
+--     compAllVanIdTimeLim(env,dags,eqVarPart,timeLimit,elimMethod)
+load "lib/utils.m2";
+compAllVanIdTimeLim = args -> (
+
+    -- handle input
+    if #args!=4 and #args!=5 then
+        error("Input arguments have to be 4 or 5.");
+    env := args_0;
+    dags := args_1;
+    eqVarPart := args_2;
+    timeLimit := args_3;
+    elimMethod := null;
+    if #args == 4 then
+        elimMethod = "m2"
+    else 
+        elimMethod = args_4;
 
     if allowableThreads < 2 then
         error("Need at least 2 allowable Threads.");
@@ -18,17 +37,26 @@ compAllVanIdTimeLim = (env,dags,eqVarPart,timeLimit) -> (
     tasksFinished := 0;
     taskMonitored := new MutableHashTable;
     taskStarts := new MutableHashTable;
-    vIdeal := (e,d,v) -> elapsedTiming(vanishingIdeal(e,d,v));
+    vIdeal := (e,d,v) -> elapsedTiming(vanishingIdeal(e,d,v,elimMethod));
+    print("largeScale");
+    print(args_4);
+    print(instance(vanishingIdeal,FunctionClosure));
+    print(vanishingIdeal(1));
 
     -- fill tasks
     for t from 1 to nTasks do (
+        print("before");
+        a := vIdeal(env,dags_currDag,eqVarPart);
+        print("aftercalc");
         tasks#t = schedule(vIdeal,(env,dags#currDag,eqVarPart));
+        print("after schedule");
         taskIndices#t = currDag;
         taskStarts#t = currentTime();
         currDag = currDag + 1; 
         taskMonitored#t = true;
     );
 
+    print("beginloop");
     -- main scheduler loop
     result:=0;
     vanIdeal:=0;
@@ -40,7 +68,7 @@ compAllVanIdTimeLim = (env,dags,eqVarPart,timeLimit) -> (
             if not taskMonitored#t then (
                 continue;
             ) else if isReady tasks#t then (
-
+                print("inloop");
                 -- add results to lists
                 --print(concatenate("retrieveResults: ",toString(taskIndices#t)));
                 result := taskResult(tasks#t);
@@ -81,6 +109,7 @@ compAllVanIdTimeLim = (env,dags,eqVarPart,timeLimit) -> (
         
         nanosleep 10000000;
     );
+    print("donecompall");
 
     -- sort resulting lists such that they ressemble the dag input list
     listIdeals = {};
@@ -92,7 +121,6 @@ compAllVanIdTimeLim = (env,dags,eqVarPart,timeLimit) -> (
 
     return (listIdeals,listCompTime);
 );
-
 
 
 -- lists all partitions of set s
@@ -134,83 +162,42 @@ generateDagsFromFile = file -> (
 )
 
 
--- gets ideal and returns a string of maple code that generates this ideal
--- in maple
-idealM2ToMpl = (ideal) -> (
-    str := substring(toString(ideal),5);
-    str = addUnderline(str);
-    str = concatenate("PolynomialIdeal",str);
-    return str;
+-- function that computes groups of graphs with identical vanishing Ideal
+-- input: set of graphs to compare as list of digraphs and 
+--        equal variance groupings as list of lists
+-- output: list of lists with groups index of graphs with identical vanishing ideal
+compVanishingIdealAll = method()
+compVanishingIdealAll1 := (env,dags,eqVarPart,elimMethod) -> (
+    vanishingIdeals := {};
+    print("Computing and saving ideals ... ");
+    elapsedTime (for i from 0 to #dags-1 do (
+        print(concatenate(toString(i+1),"/",toString(#dags)));
+        vanishingIdeals = append(vanishingIdeals,vanishingIdeal(env,dags_i,eqVarPart,elimMethod));    
+    ));
+
+    -- compute groups with identical vanishingIdeal
+    print("Comparing ideals ...");
+    elapsedTime(
+    equivResults := {};
+    for i from 0 to #dags-2 do (
+        --print(concatenate(toString(i+1),"/",toString(#dags-1)));        
+        for j from i+1 to #dags-1 do(
+            if toString(vanishingIdeals_i) == "ideal()" then (
+                if toString(vanishingIdeals_j) == "ideal()" then
+                    equivResults = append(equivResults,{i,j})
+            ) else if toString(vanishingIdeals_j) != "ideal()" and
+                vanishingIdeals_i == vanishingIdeals_j then 
+                    equivResults = append(equivResults,{i,j}
+            );  
+        );
+    ););
+
+    print("Computing groups with equal ideals...");
+    allNodes := for i from 0 to #dags-1 list i;
+    groups = time connectedComponents(graph(allNodes, equivResults));
+    (groups,vanishingIdeals)
 )
-
--- takes string replaces '_' by '__'
-addUnderline = str -> (
-    l := sequence();
-    for i from 0 to #str-1 do (
-        l = append(l,str_i);
-        if str_i == "_" then
-            l = append(l,"_");
-    );
-    return concatenate(l);
-);
-
--- gets string of ideal from maple generated from convert(ideal,string)
--- and returns a macauly2 ideal
--- maples ideals have the following structure:
--- POLYNOMIALIDEAL( ideal,variables = {...},...)
-idealMplToM2 = (str) -> (
-    l := sequence("ideal");
-    i := 15; -- skip "POLYNOMIALIDEAL"
-    while i < #str and str_i != "=" do (
-        l = append(l,str_i);
-        if str_i == "_" then
-            i = i + 2
-        else
-            i = i + 1;
-    );
-    
-    l = take(l,{0,#l-12}); -- cutoff ",variables "
-    l = append(l,")");
-    return value(concatenate(l));
-)
-
-
--- computes elimination ideal with maple. Needs to have maple
--- installed and accessible by command line with command 'maple'.
--- If maple installed but 'maple' is not knwon in command line,
--- search for the path of the binaries of your maple installation 
--- (e.g. home/yourUserName/maple2021/bin/) and execute in command line 
--- 'export PATH=$PATH:/your/path/to/maple/'
---    input: I is ideal and toKeep list of indeterminants to intersect I with
---           (this is different from eliminate in m2)
---    output: (elimination Ideal, cpu time in maple used for calculation)
-eliminateMaple = (I, toKeep) -> (
-
-    -- create files
-    fileMplCode := temporaryFileName() | ".mpl";
-    fileMplOut := temporaryFileName();
-
-    -- fill maple file and execute
-    fileMplCode << "with(PolynomialIdeals):";
-    filestr := concatenate("\"",toString(fileMplOut),"\"");
-    fileMplCode << "fileNameWrite := " << filestr << ":";
-    fileMplCode << "J := " << idealM2ToMpl(I) << ":";
-    fileMplCode << "vars := " << addUnderline(toString(toKeep)) <<":";
-    fileMplCode << "start:=time(): E:=EliminationIdeal(J,vars): t:=time()-start:";
-    fileMplCode << "fileOut:=fopen(fileNameWrite,'WRITE','TEXT'):";
-    fileMplCode << "writeline(fileOut,convert(E,string)):";
-    fileMplCode << "writeline(fileOut,convert(t,string)):"<<endl;
-    fileMplCode << close;
-    run(concatenate("maple ",toString(fileMplCode)," -q"));
-    
-    -- retrieve result
-    fileMplOut;
-    results := lines(get(fileMplOut));
-    elimIdeal := idealMplToM2(results_0);
-    calcTime := results_1;
-    removeFile(fileMplCode);
-    removeFile(fileMplOut);
-
-    -- return
-    (elimIdeal,calcTime)
-)
+compVanishingIdealAll (List,List,List) := 
+    (e,d,v) -> compVanishingIdealAll1(e,d,v,"m2");
+compVanishingIdealAll (List,List,List,String) := 
+    (e,d,v,s) -> compVanishingIdealAll1(e,d,v,s);
