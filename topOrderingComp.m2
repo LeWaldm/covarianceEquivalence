@@ -10,10 +10,10 @@
 load "lib/utils.m2";
 load "lib/largeScaleComp.m2";
 
-dbFile = "results/vanIdealsTopOrder5.dbm";
-allFiles = {"topSortedDags/ts_dags5"};
-allNodes = {5};
-timeLimits = {1100};
+dbFile = "results/vanIdealsMplNodes4.dbm";
+allFiles = {"topSortedDags/ts_dags4"};
+allNodes = {4};
+timeLimits = {200};
 elimMethod = "maple";
 
 db = openDatabaseOut dbFile;
@@ -39,33 +39,45 @@ try (
             print("----------------------------------------------------");
             print(concatenate("Equal Variance Partition: ",toString(ptt)));
 
+            -- open database
+            --db = openDatabaseOut concatenate(dbFile,"_",toString(ptt),".dbm");
+
             -- see which graphs need to be computed
             graphsToComp := sequence();
             for j from 0 to #topOrdDags-1 do (
                 key = toString({topOrdDags_j,ptt});
-                if db#?key and (not instance((db#key)_1,Nothing)) then
+                if db#?key and (db#key)_(-3) != "," then
                     continue;
                 graphsToComp = append(graphsToComp,topOrdDags_j);
             );
             needToComp = needToComp + #graphsToComp;
             totalGraphs = totalGraphs + #topOrdDags;
 
-            -- calculate ideals
-            print(p);
-            (ideals,compTime) = compAllVanIdTimeLim(env,graphsToComp,ptt,timeLimits_i,elimMethod);
-            print(p);
+            -- compute the ideals
+            for j from 0 to #graphsToComp do (
 
-            -- save ideals
-            -- for j from 0 to #graphsToComp-1 do (
-            --     if not(instance(ideals_j,Nothing)) then
-            --         actuallyComp = actuallyComp + 1;
-            --     db#(toString({graphsToComp_j,ptt})) = toString({compTime_j,ideals_j,elimMethod});
-            -- );
+                I = vanishingIdeal(env,graphsToComp_j,ptt,"maple");
+                db#(toString({graphsToComp_j,ptt})) = toString({compTime_j,ideals_j,elimMethod});
+
+            )
+
+
+            if #graphsToComp>0 then (
+                -- calculate ideals
+                (ideals,compTime) = compAllVanIdTimeLim(env,graphsToComp,ptt,timeLimits_i,elimMethod);
+            
+
+                -- save ideals
+                for j from 0 to #graphsToComp-1 do (
+                    if not(instance(ideals_j,Nothing)) then
+                        actuallyComp = actuallyComp + 1;
+                    db#(toString({graphsToComp_j,ptt})) = toString({compTime_j,ideals_j,elimMethod});
+                );
+            );
         );
     );
     close db;
     print(concatenate(toString(actuallyComp),"/",
         toString(needToComp),"/",toString(totalGraphs), 
         " (actually calculated / requested computation / total graph entries in database"));
-) else 
-    close db;
+) else close db;

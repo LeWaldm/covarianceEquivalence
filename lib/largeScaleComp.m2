@@ -9,7 +9,6 @@
 -- ways to call this function:
 --     compAllVanIdTimeLim(env,dags,eqVarPart,timeLimit)
 --     compAllVanIdTimeLim(env,dags,eqVarPart,timeLimit,elimMethod)
-load "lib/utils.m2";
 compAllVanIdTimeLim = args -> (
 
     -- handle input
@@ -37,26 +36,18 @@ compAllVanIdTimeLim = args -> (
     tasksFinished := 0;
     taskMonitored := new MutableHashTable;
     taskStarts := new MutableHashTable;
+    --print(instance(vanishingIdeal1,FunctionClosure));
     vIdeal := (e,d,v) -> elapsedTiming(vanishingIdeal(e,d,v,elimMethod));
-    print("largeScale");
-    print(args_4);
-    print(instance(vanishingIdeal,FunctionClosure));
-    print(vanishingIdeal(1));
 
     -- fill tasks
     for t from 1 to nTasks do (
-        print("before");
-        a := vIdeal(env,dags_currDag,eqVarPart);
-        print("aftercalc");
         tasks#t = schedule(vIdeal,(env,dags#currDag,eqVarPart));
-        print("after schedule");
         taskIndices#t = currDag;
         taskStarts#t = currentTime();
         currDag = currDag + 1; 
         taskMonitored#t = true;
     );
 
-    print("beginloop");
     -- main scheduler loop
     result:=0;
     vanIdeal:=0;
@@ -68,7 +59,6 @@ compAllVanIdTimeLim = args -> (
             if not taskMonitored#t then (
                 continue;
             ) else if isReady tasks#t then (
-                print("inloop");
                 -- add results to lists
                 --print(concatenate("retrieveResults: ",toString(taskIndices#t)));
                 result := taskResult(tasks#t);

@@ -118,7 +118,7 @@ generateDAGs = nodes -> (
     -- generate powerset
     nUndirectedEdges := nodes*(nodes-1)//2;
     allCombinations := generateAllCombinations({-1,0,1},nUndirectedEdges);
-    allNodes = for i from 1 to nodes list i;
+    allNodes := for i from 1 to nodes list i;
 
     -- extract dags
     dags := {};
@@ -157,10 +157,9 @@ generateDAGs = nodes -> (
 --   vanishingIdeal(env,digraph,variancePartition)
 --   vanishingIdeal(env,digraph,variancePartition,methodElim)
 vanishingIdeal = method();
-vanishingIdeal1 := args -> (
+vanishingIdeal1 = args -> (
 
     -- assign local environment
-    print("vanIdeal");
     n := args_0_0;
     R := args_0_1;
     S := args_0_2;
@@ -171,7 +170,7 @@ vanishingIdeal1 := args -> (
     equalVarGroups := args_2;
     methodElim := args_3;
     L := hadamard(Lfull,adjacencyMatrix(reindexBy(g,"sort")));
-  
+
     -- calculate Omega
     O := transpose(id_(R^n) - L) * S * (id_(R^n) - L);
     
@@ -206,13 +205,11 @@ vanishingIdeal1 := args -> (
     --elapsedTime (groebnerBasis(I, Strategy=>"MGB"));
     --elapsedTime eliminateExpGb(toEliminate,I);
     elimIdeal := null;
-    print("vanIdeal");
     if methodElim == "m2" then
         elimIdeal = eliminate(toEliminate,I)
     else if methodElim == "maple" then
-        (print("vanIdeal");
-        elimIdeal = eliminateMaple(I,toKeep,-1);
-        print("warning: limit set to 1000s");)
+        (elimIdeal = eliminateMaple(I,toKeep,1000);
+        print("warning: limit set to 1000s, string returned");)
     else 
         error("Illegal value for elimMethod.");
     return elimIdeal;
@@ -251,6 +248,7 @@ addUnderline = str -> (
 --         above
 -- output: macauly2 ideal
 idealMplToM2 = (str) -> (
+    print(str);
     if str == "null" then
         return null;
     l := sequence("ideal");
@@ -307,7 +305,7 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
     fileMplCode << "vars := " << addUnderline(toString(toKeep)) <<":";
     fileMplCode << "start:=time():";
     if timeLimit > 0 then 
-        fileMplCode << "try E:=timelimit(EliminationIdeal(J,vars),"<< toString(timeLimit) << "): catch: E:=\"catched\" end try:"
+        fileMplCode << "try E:=timelimit("<< toString(timeLimit) << ",EliminationIdeal(J,vars)): catch \"time expired\": E:=\"null\" end try:"
     else 
         fileMplCode << "E:=EliminationIdeal(J,vars):";
     fileMplCode << "t:=time()-start:";
@@ -320,13 +318,36 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
     -- retrieve result
     fileMplOut;
     results := lines(get(fileMplOut));
-    elimIdeal := idealMplToM2(results_0);
+    --elimIdeal := idealMplToM2(results_0);
     calcTime := results_1;
     removeFile(fileMplCode);
     removeFile(fileMplOut);
 
     -- return
-    return elimIdeal;
+    --return elimIdeal);
+    return results_0;
 )
 -- eliminateMaple(Ideal,List) := (i,v) -> eliminateMaple1(i,v,-1)
 -- eliminateMaple(Ideal,List,ZZ) := (i,v,t) -> eliminateMaple1(i,v,t)
+
+
+-- fills an implicit partition with 1 element sets
+fillPartition = (nodes,ptt) -> (
+
+    for i from 1 to nodes do (
+        j := 0;
+        while j < #ptt and not isSubset(set({i}),set(ptt_j)) do
+            j = j + 1;       
+        if j == #ptt then 
+            ptt = append(ptt,{i});
+    );  
+    return sort(ptt);
+)
+
+lprint = l -> for i from 0 to #l-1 do print(l_i);
+
+-- nice progress bar for computations
+-- takes value from 0 to 1 indicating the progress
+progressBar = prc -> (
+    run(concatenate("printf '",toString(numeric(prc)*100)," percent \r'"));
+)
