@@ -158,11 +158,16 @@ generateDagsFromFile = file -> (
 -- output: list of lists with groups index of graphs with identical vanishing ideal
 compVanishingIdealAll = method()
 compVanishingIdealAll1 := (env,dags,eqVarPart,elimMethod) -> (
-    vanishingIdeals := {};
+    vanishingIdeals := new MutableHashTable;
     print("Computing and saving ideals ... ");
     elapsedTime (for i from 0 to #dags-1 do (
         print(concatenate(toString(i+1),"/",toString(#dags)));
-        vanishingIdeals = append(vanishingIdeals,vanishingIdeal(env,dags_i,eqVarPart,elimMethod));    
+        if elimMethod == "maple" then (
+            str := vanishingIdeal(env,dags_i,eqVarPart,elimMethod);
+            vanishingIdeals#i = idealMplToM2(str);
+        )  
+        else 
+            vanishingIdeals#i = ((vanishingIdeal(env,dags_i,eqVarPart,elimMethod))); 
     ));
 
     -- compute groups with identical vanishingIdeal
@@ -170,13 +175,14 @@ compVanishingIdealAll1 := (env,dags,eqVarPart,elimMethod) -> (
     elapsedTime(
     equivResults := {};
     for i from 0 to #dags-2 do (
+        progressBar(i/#dags);
         --print(concatenate(toString(i+1),"/",toString(#dags-1)));        
         for j from i+1 to #dags-1 do(
-            if toString(vanishingIdeals_i) == "ideal()" then (
-                if toString(vanishingIdeals_j) == "ideal()" then
+            if toString(vanishingIdeals#i) == "ideal()" then (
+                if toString(vanishingIdeals#j) == "ideal()" then
                     equivResults = append(equivResults,{i,j})
-            ) else if toString(vanishingIdeals_j) != "ideal()" and
-                vanishingIdeals_i == vanishingIdeals_j then 
+            ) else if toString(vanishingIdeals#j) != "ideal()" and
+                vanishingIdeals#i == vanishingIdeals#j then 
                     equivResults = append(equivResults,{i,j}
             );  
         );
@@ -185,7 +191,7 @@ compVanishingIdealAll1 := (env,dags,eqVarPart,elimMethod) -> (
     print("Computing groups with equal ideals...");
     allNodes := for i from 0 to #dags-1 list i;
     groups = time connectedComponents(graph(allNodes, equivResults));
-    (groups,vanishingIdeals)
+    (groups,for i from 0 to #dags-1 list vanishingIdeals#i)
 )
 compVanishingIdealAll (List,List,List) := 
     (e,d,v) -> compVanishingIdealAll1(e,d,v,"m2");

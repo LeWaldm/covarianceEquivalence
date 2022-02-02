@@ -1,4 +1,4 @@
-
+load "lib/utils.m2";
 -- saves the results from a calculation into a file. 
 -- If file already exists, function tests if the same env and dags in file.
 -- If so, adds the variance partition and groups to the file. Else, error.
@@ -6,13 +6,7 @@ saveResults = (fileName,env,variancePartition,dags,ideals,groups) -> (
     
     -- add sets with 1 element to variancePartition
     nodes := env_0;
-    for i from 1 to nodes do (
-        j := 0;
-        while j < #variancePartition and not isSubset(set({i}),set(variancePartition_j)) do
-            j = j + 1;       
-        if j == #variancePartition then 
-            variancePartition = append(variancePartition,{i});
-    );           
+    variancePartition = fillPartition(nodes,variancePartition);         
     
     -- main stuff
     if fileExists(fileName) then (
@@ -57,7 +51,7 @@ saveResults = (fileName,env,variancePartition,dags,ideals,groups) -> (
         pprintEnvToFile(file,envFile,"env");
         pprintListToFile(file,allVariancePartitions,"allVariancePartitions");
         pprintListToFile(file,allGroups,"allIdenticalVanishingIdealGroups");
-        pprintListToFile(file,allIdeals,"allVanishingIdeals"); 
+        pprintListToFile(file,allIdeals,"allVanishingIdeals",true); 
         pprintListToFile(file,dagsFile,"dags");        
         print("Saved variance partition with its equal vanishing Ideal groups.");
         
@@ -71,7 +65,7 @@ saveResults = (fileName,env,variancePartition,dags,ideals,groups) -> (
         pprintEnvToFile(file,env,"env");
         pprintListToFile(file,{variancePartition},"allVariancePartitions");
         pprintListToFile(file,{groups},"allIdenticalVanishingIdealGroups");
-        pprintListToFile(file,{ideals},"allVanishingIdeals");
+        pprintListToFile(file,{ideals},"allVanishingIdeals",true);
         
         -- save all dags
         pprintListToFile(file,dags,"dags");
@@ -87,12 +81,25 @@ saveResults = (fileName,env,variancePartition,dags,ideals,groups) -> (
 
 
 -- prints list with new line for each element into file
-pprintListToFile = (file,l,name) -> (
+-- call with (file,l,name) or (file,l,name,isString)
+pprintListToFile = args -> (
+    file := args_0;
+    l := args_1;
+    name := args_2;
+    isString = #args >3 and args_3;
     file << name << " := {";
     if #l > 0 then (
-        file << endl << "    " << toString(l_0);
+        if isString then 
+            file << endl << "    \"" << toString(l_0)<<"\""
+        else
+            file << endl << "    " << toString(l_0);
         for i from 1 to #l-1 do (             
-            file << "," << endl << "    " << toString(l_i);          
+            file << ","<<endl<< "    ";
+            if isString then 
+                file << "\"";
+            file << toString(l_i); 
+            if isString then 
+                file << "\"";       
         );
     );
     file << endl << "};" << endl;

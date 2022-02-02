@@ -208,8 +208,8 @@ vanishingIdeal1 = args -> (
     if methodElim == "m2" then
         elimIdeal = eliminate(toEliminate,I)
     else if methodElim == "maple" then
-        (elimIdeal = eliminateMaple(I,toKeep,1000);
-        print("warning: limit set to 1000s, string returned");)
+        (elimIdeal = eliminateMaple(I,toKeep,5000);
+        print("warning: limit set to 5000s, string returned");)
     else 
         error("Illegal value for elimMethod.");
     return elimIdeal;
@@ -248,7 +248,6 @@ addUnderline = str -> (
 --         above
 -- output: macauly2 ideal
 idealMplToM2 = (str) -> (
-    print(str);
     if str == "null" then
         return null;
     l := sequence("ideal");

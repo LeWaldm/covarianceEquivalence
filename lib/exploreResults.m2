@@ -1,5 +1,5 @@
-load "utils.m2"
-load "loadAndSaveResults.m2"
+load "lib/utils.m2"
+load "lib/loadAndSaveResults.m2"
 
 -- functions
 -- print number of group members per group
@@ -112,5 +112,6 @@ isEqualDags = (d1,d2) -> (
     isEqualSets(set(vertices(d1)),set(vertices(d2))) 
         and isEqualSets(set(edges(d1)), set(edges(d2)))
 )
+
 
 
