@@ -1,23 +1,21 @@
--- v3, brute force
 -- this script needs a .dbm database that contains the vanishingIdeals of 
 -- all possible variance partitions but only for all topologically unique graphs.
--- This script calculates the vanishingIdeals from the other graphs by
--- permuting the nodes. Then it compares all vanishing ideals, computes
+-- This db can be calculated by ;createVanIdealDb.m2'.
+-- This script calculates the vanishingIdeals of all the other graphs by
+-- permuting the nodes and the indices in the ideals. 
+-- Then it compares all vanishing ideals, computes
 -- the groups of equal vanishing ideals and saves the results in a file.
 -- These computations are only done for the unique partitions of the
 -- number of nodes. The groups (and ideals) for other partitions can
--- be deduced by permutation.
-
+-- be deduced by permutation (again).
 load "lib/utils.m2";
 needsPackage "GraphicalModels";
 load "lib/loadAndSaveResults.m2";
 
-
-error("need to make good database names")
 -- parameters
-allNodes = {4};
-dbTopSortVanIdealsMpl = "results/vanIdealsMplNodes4.dbm";
-saveFiles = {"results/compare/final4"};
+allNodes = {3};
+dbTopSortVanIdealsMpl = "results/test/topOrdVanIdeals3.dbm";
+saveFiles = {"results/test/3"};
 varPart3 = {
     {},
     {{1,2}},
@@ -38,8 +36,10 @@ varPart5 = {
      {{1,2,3,4}},
      {{1,2,3,4,5}}
 };
-allPartitions = {varPart4};
+allPartitions = {varPart3};
 relPathToMplCompScript = "lib/compareIdeals.mpl";
+compareMethod = "maple";
+
 
 -- help function: takes string and hashtable and returns
 -- string that has all characters that are keys of hastable
@@ -55,7 +55,7 @@ permuStr = (str,permu) -> (
 )
 
 -- main
-try close db;
+try close dbTopSortVanIdealsMpl;
 db = openDatabaseOut dbTopSortVanIdealsMpl;
 for n from 0 to #allNodes-1 do (
 
@@ -67,9 +67,8 @@ for n from 0 to #allNodes-1 do (
     desiredPtts := apply(allPartitions_n,p->fillPartition(nodes,p));
     desiredPtts = sort(apply(desiredPtts,sort));
     desiredPttsSet := set(desiredPtts);
-    if nodes > 9 then 
+    if nodes > 9 then   -- because of the way s_xy is dealt with
         error("Only works for nodes <10.");
-        -- because of the way s_xy is dealt with
 
     -- create hashmap with m2 objects instead ot str in key for better comparison
     --   and only select the entries with correct number of nodes
@@ -100,7 +99,7 @@ for n from 0 to #allNodes-1 do (
     counter := 0;
     allKeys := keys(vanIdeals);
     elapsedTime for i from 0 to #allKeys-1 do (
-        progressBar(i/allKeys-1);
+        progressBar(i/(#allKeys-1));
         k := allKeys_i;
         alreadyCreated := new MutableHashTable;
         listDags := sequence();
@@ -122,8 +121,14 @@ for n from 0 to #allNodes-1 do (
     vanIdealSaveFile = concatenate(saveFiles_n,"_vanIdeals.dbm");
     if fileExists(vanIdealSaveFile) then (
         print("Database of all vanishingIdeals already exists. Loading this database...");
-        try close vanIdealSaveFile;
-        allVanIdealsDb = openDatabaseOut vanIdealSaveFile;
+        error("Loading an already existing database is currently not supported.");
+            -- problems: how to check that the database contains all the 
+            --   necessary keys? could run createVanIdeals database then.
+            --   or just scan the database and determine which are missing.
+            --   In both cases I would need to abstract the script more.
+            --   maybe in a later stage, not necessary now.
+        -- try close vanIdealSaveFile;
+        -- allVanIdealsDb = openDatabaseOut vanIdealSaveFile;
     ) else (
         print("Permuting ideals of new dags ...");
         allVanIdealsDb = openDatabaseOut vanIdealSaveFile;
@@ -178,6 +183,7 @@ for n from 0 to #allNodes-1 do (
             );
         );
     );
+    print(#keys(allVanIdealsDb));
 
 
     -- iterate over all partitions (later: maybe loop over partitions one level higher)
@@ -203,7 +209,7 @@ for n from 0 to #allNodes-1 do (
         -- print all ideals to a file with one ideal per file and call 
         --    maple script that compares all the ideals and calculates the
         --    groups and just returns the groups to m2
-        print("Comparing and grouping all ideals ...")
+        print("Comparing and grouping all ideals ...");
         fileNameMplIn = temporaryFileName();
         fileNameMplOut = temporaryFileName();
         out = fileNameMplIn << "";
@@ -229,7 +235,7 @@ for n from 0 to #allNodes-1 do (
         removeFile(fileNameMplOut);
 
         -- save results
-        saveResults(fileName,env,ptt,dags,ideals,groups);
+        saveResults(fileName,env,ptt,dags,null,groups);
     );
     close allVanIdealsDb;
 );

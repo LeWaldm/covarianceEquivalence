@@ -1,11 +1,10 @@
 fileNameIn := error("Needs to be filled before executing."):
 fileNameOut := error("Needs to be filled before executing."):
 
-fileIn := fopen(fileNameIn,READ,'TEXT'):
-fileOut := fopen(fileNameOut,WRITE,'TEXT'):
-
 # first line of fileIn should be number of ideals in file 
 # (is the same as number of remaining lines in the file)
+fileIn := fopen(fileNameIn,READ,'TEXT'):
+fileOut := fopen(fileNameOut,WRITE,'TEXT'):
 with(PolynomialIdeals):
 with(GraphTheory):
 
