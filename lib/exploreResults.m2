@@ -114,4 +114,59 @@ isEqualDags = (d1,d2) -> (
 )
 
 
+-- NOT READY YET
+-- takes dags and groups as input and outputs the unique
+-- groups. Two groups A,B are called permutation equivalent
+-- if there exists a permutation of the nodes such that
+-- the permuted graphs in A are equivalent to the graphs in B.
+-- returns unique groups as list and list of lists 
+-- which contain all the groups that are the same as unique.
+uniqueGroups = (dags,groups) -> (
 
+    -- group by number of members (maybe easier with select?)
+    groupsByMembers = new MutableHashTable;
+    counts := apply(groups,g->#g);
+    for i from 0 to #groups-1 do 
+        if not groupsByMembers#?(counts_i) then
+            groupsByMembers#(counts_i) = {i}
+        else 
+            groupsByMembers#(counts_i) = append(groupsByMembers#(counts_i),i);
+    
+    -- compute allowed permutations (i.e. permutations that keep 
+    -- the variance partition)
+    nodes = max(vertices(dags_0));
+    allPermus := permutations(for i from 1 to nodes list i);
+    TODO
+    permus := sequence();
+
+
+    -- iterate over all groups with x members
+    uniqueGroups := new MutableHashTable;
+    equivGroups := new MutableHashTable();
+    uniqInd := 0
+    for m in keys(groupsByMembers) do (
+
+        -- get groups with m members
+        groupIndices := groupsByMembers#m;
+        currGroups := for i from 0 to #groupIndices-1 list groups_(groupIndices_i);
+        ngroups := #currGroups;
+        
+        -- only looking at edges sufficient since identical vertices
+        edgesGroups := apply(currGroups,g->(apply(g,ind->edges(dags_ind)))));
+
+
+        for i from 0 to #currGroups-1 do (
+
+            -- check if need to compute current group
+            
+
+            -- get all groups equivalent to current group
+            uniq := false;
+            groupsBelongingToUniqGroup := {};
+
+
+
+        )
+
+    )
+)

@@ -1,26 +1,33 @@
+load "lib/utils.m2";
+
 -- idea: use macauly2 built-in database to save the vanishing ideal I of 
 --   a graph G with variance partition v as key value pair: 
 --       key: {G,varPart} -> toString(ideal)
 --   this is basically a database in long format. Might be improved later.
 --
--- This script computes the vanishing
--- ideals of some dags and saves the result in a database. If the 
--- dag already has an ideal in the database, it is not computed again.
--- 
--- that have no vanishingIdeals (or ideal of null) in the database.
--- A time Limit for each calculation needs to be given.
-load "lib/utils.m2";
-load "lib/largeScaleComp.m2";
+-- This script computes the vanishing ideals of all topologically 
+-- unique dags and saves the result in a database. If the 
+-- dag already has an ideal in the database, it is not computed again.--
+-- inputs:
+--  - dbFile: file to save ALL results. If already existent, need to 
+--      have same elimMethod as this script
+--  - allFiles: list of files to load the toplogical dags in form of http://users.cecs.anu.edu.au/~bdm/data/digraphs.html 
+--  - allNodes: list of number of nodes associated to the files
+--  - elimMethod: method for computing elimination ideal, prefer maple
+--  - timeLimits: only applicable for elimMethod 'maple'. List of 
+--      time limits for calculations. If more time than limit,
+--      ideal is saved as "null" in database. Set -1 if no time limit.
+
 
 -- parameters
-dbFile = "results/test/topOrdVanIdeals3.dbm";
-allFiles = {"topSortedDags/ts_dags3"};
-allNodes = {3};
+dbFile = "results/test/topOrdVanIdeals4.dbm";  
+allFiles = {"topSortedDags/ts_dags4"}; -- 
+allNodes = {4};     -- list of all nodes to be computed
 elimMethod = "maple";
-timeLimits = {1000};  -- in seconds, only applicable if elimMethod is maple, -1 for no limit
+timeLimits = {2000};  -- in seconds, only applicable if elimMethod is maple, -1 for no limit
 
 -- main 
-try close db;
+try close dbFile;
 db = openDatabaseOut dbFile;
 totalGraphs = 0;
 needToComp = 0;
@@ -35,7 +42,7 @@ for i from 0 to #allNodes-1 do (
     topOrdDags = generateDagsFromFile(allFiles_i);
     allEqVarPart = allPartitions(set(for j from 1 to nodes list j));
     timeLimit := timeLimits_i;
-    print(#allEqVarPart);
+    print(concatenate("Computing ",#allEqVarPart," variance partitions."));
 
     for p from 0 to #allEqVarPart-1 do (
 
@@ -54,8 +61,11 @@ for i from 0 to #allNodes-1 do (
         graphsToComp := sequence();
         for j from 0 to #topOrdDags-1 do (
             key = toString({topOrdDags_j,ptt});
-            if db#?key and (db#key)_(-3) != "null" then
-                continue;
+            if db#?key then 
+                if elimMethod == "maple" and db#key != "null" then 
+                    continue
+                else if (db#key)_(-3) != "," then
+                    continue;
             graphsToComp = append(graphsToComp,topOrdDags_j);
         );
         needToComp = needToComp + #graphsToComp;
