@@ -403,55 +403,97 @@ progressBar = prc -> (
     run(concatenate("printf '",toString(numeric(prc)*100)," percent \r'"));
 )
 
--------------------------------
--- Beneath are experimental functions for large scale computation.
--------------------------------
+-- compares all vanishing ideals and returns groups of equal vanIdeals.
+-- If compMethod == "m2" then vanIdeals needs to be Hashtable
+-- If compMethod == "maple" then vanideals needs to be list.
+compareVanIdeals = (vanIdeals,compMethod) -> (
 
--- naive function that computes groups of graphs with identical vanishing Ideal
--- input: set of graphs to compare as list of digraphs and 
---        equal variance groupings as list of lists
+    -- variables
+    relPathToMplCompScript := "lib/compareIdeals.mpl";
+
+    -- main
+    elapsedTime if compMethod == "m2" then (  
+        print("Comparing ideals ...");  
+        nIdeals := #(keys(vanIdeals));
+        equivResults := {};
+        elapsedTime for i from 0 to nIdeals-2 do (
+            progressBar(i/nIdeals);
+            --print(concatenate(toString(i+1),"/",toString(#dags-1)));        
+            for j from i+1 to nIdeals-1 do(
+                if toString(vanIdeals#i) == "ideal()" then (
+                    if toString(vanIdeals#j) == "ideal()" then
+                        equivResults = append(equivResults,{i,j})
+                ) else if toString(vanIdeals#j) != "ideal()" and
+                    vanIdeals#i == vanishingIdeals#j then 
+                        equivResults = append(equivResults,{i,j}
+                );  
+            );
+        );
+
+        print("Computing groups with equal ideals...");
+        allNodes := for i from 0 to #dags-1 list i;
+        groups = elapsedTime connectedComponents(graph(allNodes, equivResults));
+    
+    ) else if compMethod == "maple" then (
+
+        -- print all ideals to a file with one ideal per line and call 
+        --    maple script that compares all the ideals and calculates the
+        --    groups and just returns the groups to m2
+        print("Comparing and grouping all ideals ...");
+        fileNameMplIn := temporaryFileName();
+        fileNameMplOut := temporaryFileName();
+        out := fileNameMplIn << "";
+        out << toString(#vanIdeals)<<endl;
+        for i from 0 to #vanIdeals-1 do 
+            out << vanIdeals_i << endl;
+        out << close;
+
+        fileLines := lines(get(relPathToMplCompScript));
+        mplCode := temporaryFileName() | ".mpl";
+        mplCode << concatenate("fileNameIn:=\"",fileNameMplIn,"\":")<<endl;
+        mplCode << concatenate("fileNameOut:=\"",fileNameMplOut,"\":")<<endl;
+        for i from 2 to #fileLines-1 do 
+            mplCode << fileLines_i << endl;
+        mplCode << close;
+        run(concatenate("maple -q ",mplCode));
+        removeFile(fileNameMplIn);
+        removeFile(mplCode);
+
+        -- load results from maple
+        groupsMpl := value(get(fileNameMplOut));
+        groups := apply(groupsMpl,group->apply(group,i->i-1));
+        removeFile(fileNameMplOut);
+    ) else 
+        error("Unknown compare method.");
+    return groups;
+)
+
+-- naive function that computes all vanishingIdeals directly and
+-- then compare them.
+-- input: 
+--  - env: environemnt as output of createEnv
+--  - dags: set of graphs to compare as list of digraphs 
+--  - eqVarpart: equal variance groupings as list of lists
+--  - elimMethod: program to use, either "m2" or "maple"
 -- output: list of lists with groups index of graphs with identical vanishing ideal
-compVanishingIdealAll = method()
-compVanishingIdealAll1 := (env,dags,eqVarPart,elimMethod) -> (
+compVanishingIdealAllDirect = method()
+compVanishingIdealAllDirect1 := (env,dags,eqVarPart,elimMethod) -> (
     vanishingIdeals := new MutableHashTable;
     print("Computing and saving ideals ... ");
     elapsedTime (for i from 0 to #dags-1 do (
         print(concatenate(toString(i+1),"/",toString(#dags)));
-        if elimMethod == "maple" then (
-            str := vanishingIdeal(env,dags_i,eqVarPart,elimMethod);
-            vanishingIdeals#i = idealMplToM2(str);
-        )  
-        else 
-            vanishingIdeals#i = ((vanishingIdeal(env,dags_i,eqVarPart,elimMethod))); 
+        vanishingIdeals#i = ((vanishingIdeal(env,dags_i,eqVarPart,elimMethod))); 
     ));
 
     -- compute groups with identical vanishingIdeal
-    print("Comparing ideals ...");
-    elapsedTime(
-    equivResults := {};
-    for i from 0 to #dags-2 do (
-        progressBar(i/#dags);
-        --print(concatenate(toString(i+1),"/",toString(#dags-1)));        
-        for j from i+1 to #dags-1 do(
-            if toString(vanishingIdeals#i) == "ideal()" then (
-                if toString(vanishingIdeals#j) == "ideal()" then
-                    equivResults = append(equivResults,{i,j})
-            ) else if toString(vanishingIdeals#j) != "ideal()" and
-                vanishingIdeals#i == vanishingIdeals#j then 
-                    equivResults = append(equivResults,{i,j}
-            );  
-        );
-    ););
-
-    print("Computing groups with equal ideals...");
-    allNodes := for i from 0 to #dags-1 list i;
-    groups = time connectedComponents(graph(allNodes, equivResults));
-    (groups,for i from 0 to #dags-1 list vanishingIdeals#i)
+    if elimMethod == "maple" then
+        vanishingIdeals = for i from 0 to #dags-1 list vanishingIdeals#i;
+    return compareVanIdeals(vanishingIdeals,elimMethod);
 )
-compVanishingIdealAll (List,List,List) := 
-    (e,d,v) -> compVanishingIdealAll1(e,d,v,"m2");
-compVanishingIdealAll (List,List,List,String) := 
-    (e,d,v,s) -> compVanishingIdealAll1(e,d,v,s);
+compVanishingIdealAllDirect (List,List,List) := 
+    (e,d,v) -> compVanishingIdealAllDirect1(e,d,v,"m2");
+compVanishingIdealAllDirect (List,List,List,String) := 
+    (e,d,v,s) -> compVanishingIdealAllDirect1(e,d,v,s);
 
 
 

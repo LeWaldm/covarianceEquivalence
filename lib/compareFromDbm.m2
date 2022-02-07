@@ -20,13 +20,11 @@ load "lib/loadAndSaveResults.m2";
 --      and all permuted vanishingIdeals (with _vanIdeals.dbm)
 -- - allPartitions: list of list of partitions that should be calculated
 --      for the according nodes at the same list position.
--- - relPathToMplCompScript: relative path to the  maple script that 
---      performs comparison 
 
 -- parameters
-allNodes = {4};
-dbTopSortVanIdealsMpl = "results/test/topOrdVanIdeals4.dbm";
-saveFiles = {"results/test/4"};
+allNodes = {3};
+dbTopSortVanIdealsMpl = "results/test/topOrdVanIdeals3.dbm";
+saveFiles = {"results/test/3"};
 varPart3 = {
     {},
     {{1,2}},
@@ -47,8 +45,7 @@ varPart5 = {
      {{1,2,3,4}},
      {{1,2,3,4,5}}
 };
-allPartitions = {varPart4};
-relPathToMplCompScript = "lib/compareIdeals.mpl";
+allPartitions = {varPart3};
 
 
 -- help function: takes string and hashtable and returns
@@ -209,33 +206,8 @@ for n from 0 to #allNodes-1 do (
         dags := apply(selKeys,k->(value(k))_0);
         ideals := apply(selKeys,k->allVanIdealsDb#k);
 
-        -- print all ideals to a file with one ideal per line and call 
-        --    maple script that compares all the ideals and calculates the
-        --    groups and just returns the groups to m2
-        print("Comparing and grouping all ideals ...");
-        fileNameMplIn = temporaryFileName();
-        fileNameMplOut = temporaryFileName();
-        out = fileNameMplIn << "";
-        out << toString(#selKeys)<<endl;
-        for i from 0 to #selKeys-1 do 
-            out << ideals_i << endl;
-        out << close;
-
-        fileLines = lines(get(relPathToMplCompScript));
-        mplCode = temporaryFileName() | ".mpl";
-        mplCode << concatenate("fileNameIn:=\"",fileNameMplIn,"\":")<<endl;
-        mplCode << concatenate("fileNameOut:=\"",fileNameMplOut,"\":")<<endl;
-        for i from 2 to #fileLines-1 do 
-            mplCode << fileLines_i << endl;
-        mplCode << close;
-        elapsedTime run(concatenate("maple -q ",mplCode));
-        removeFile(fileNameMplIn);
-        removeFile(mplCode);
-
-        -- load results from maple
-        groups = value(get(fileNameMplOut));
-        groups = apply(groups,group->apply(group,i->i-1));
-        removeFile(fileNameMplOut);
+        -- compare ideals
+        groups = compareVanIdeals(ideals,"maple");
 
         -- save results
         saveResults(fileName,env,ptt,dags,null,groups);
