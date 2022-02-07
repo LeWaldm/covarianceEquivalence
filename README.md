@@ -1,3 +1,5 @@
-- best check lib/generalWorkflow.m2 for overview of functionality
-- all useful functions are in lib/ and all current results in results/
-- the other files are working progress
+- best check startHere.m2 for overview of functionality
+- all useful functions are in lib/ and all results in results/
+- results/direct/ contains results computed by calculating all vanishing ideals
+- results/final/ contains results computed by calculating some ideals and utilizing permutation similarity of the ideals
+- results/direct/ and results/final/ contain identical groups of DAGs with identical vanishing ideals (checked by sanityCheckPermus.m2). Both folders are kept to support correctness of permutation code
