@@ -6,7 +6,7 @@ saveResults = (fileName,env,variancePartition,dags,ideals,groups) -> (
     
     -- add sets with 1 element to variancePartition
     nodes := env_0;
-    variancePartition = fillPartition(nodes,variancePartition);         
+    variancePartition = unifyPtt(nodes,variancePartition);         
     
     -- main stuff
     if fileExists(fileName) then (

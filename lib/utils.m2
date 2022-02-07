@@ -1,6 +1,7 @@
 -- requires package 
 needsPackage "GraphicalModels"
 needsPackage "DeterminantalRepresentations"
+needsPackage "SchurRings"
 
 -- generate environment with Ring,L,S matrices for arbitrary number of nodes 
 createEnv = nodes -> (
@@ -147,7 +148,6 @@ generateDAGs = nodes -> (
 )
 
 -- lists all partitions of set s
-needsPackage "SchurRings"
 allPartitions = s -> (
     p := partitions(length(toList(s)));
     l := {};
@@ -221,10 +221,8 @@ vanishingIdeal1 = args -> (
     -- compute vanishing polynomials from assumption: no bidirected edges
     assNoBidirectedEdges := {};
     for i from 0 to n-2 do (
-    	for j from i+1 to n-1 do (
-            --print(concatenate("(",toString(i),",",toString(j),")"));
+    	for j from i+1 to n-1 do 
     	    assNoBidirectedEdges = join(assNoBidirectedEdges,{O_(i,j)});
-    	)
     );
     
     -- compute vanishing polynomials from additional assumption about equal variance groups
@@ -270,23 +268,28 @@ idealM2ToMpl = (ideal) -> (
 
 -- takes string replaces '_' by '__'
 addUnderline = str -> (
-    l := sequence();
+    l := new MutableHashTable;
+    idx := 0;
     for i from 0 to #str-1 do (
-        l = append(l,str_i);
-        if str_i == "_" then
-            l = append(l,"_");
+        l#idx = str_i;
+        idx = idx + 1;
+        if str_i == "_" then (
+            l#idx = "_";
+            idx = idx + 1;
+        );  
     );
-    return concatenate(l);
+    return concatenate(for i from 0 to idx-1 list l#i);
 );
 
 -- gets string of ideal from maple generated from convert(ideal,string)
 -- and returns a macauly2 ideal
 -- maples ideals have the following structure:
---     POLYNOMIALIDEAL( ideal,variables = {...},...)
+--     POLYNOMIALIDEAL( ideal,variables = ...,characteristic = ..., known_groebner_bases = ...)
 -- inputs: R ring of the ideal, str the ideal from maple as described
 --         above
 -- output: macauly2 ideal
 idealMplToM2 = (str) -> (
+    print("warning: inefficient implementation with sequences. Need to change to MutableHashTable.");
     if str == "null" then
         return null;
     l := sequence("ideal");
@@ -363,16 +366,20 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
     removeFile(fileMplOut);
 
     -- return
-    --return elimIdeal);
+    --return elimIdeal;
     return results_0;
 )
 -- eliminateMaple(Ideal,List) := (i,v) -> eliminateMaple1(i,v,-1)
 -- eliminateMaple(Ideal,List,ZZ) := (i,v,t) -> eliminateMaple1(i,v,t)
 
 
--- fills an implicit partition with all missing 1 element sets
-fillPartition = (nodes,ptt) -> (
+-- transforms a partition into a unique format, ie.
+-- (1) fills an implicit partition with all missing 1 element sets and
+-- (2) sorts the partition
+-- This could probably als be achieved with sets.
+unifyPtt = (nodes,ptt) -> (
 
+    -- fill partition
     for i from 1 to nodes do (
         j := 0;
         while j < #ptt and not isSubset(set({i}),set(ptt_j)) do
@@ -380,7 +387,11 @@ fillPartition = (nodes,ptt) -> (
         if j == #ptt then 
             ptt = append(ptt,{i});
     );  
-    return sort(ptt);
+
+    -- sort partition
+    ptt = sort(apply(ptt,sort));
+
+    return ptt;
 )
 
 -- function to print a list with one line per element
@@ -393,7 +404,7 @@ progressBar = prc -> (
 )
 
 -------------------------------
--- Beneath are potentially useful functions for large scale computation.
+-- Beneath are experimental functions for large scale computation.
 -------------------------------
 
 -- naive function that computes groups of graphs with identical vanishing Ideal

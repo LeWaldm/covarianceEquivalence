@@ -27,23 +27,28 @@ elimMethod = "maple";
 timeLimits = {2000};  -- in seconds, only applicable if elimMethod is maple, -1 for no limit
 
 -- main 
-try close dbFile;
+try close db;  -- for easy debugging
 db = openDatabaseOut dbFile;
 totalGraphs = 0;
 needToComp = 0;
 actuallyComp = 0;
 for i from 0 to #allNodes-1 do (
+
+    -- user feedback
     nodes = allNodes_i;
     print("----------------------------------------------------------------------------------------------");
     print(concatenate("Nodes: ",toString(nodes)));
     print("----------------------------------------------------------------------------------------------");
 
+    -- generate loop variables
     env = createEnv(nodes);
-    topOrdDags = generateDagsFromFile(allFiles_i);
-    allEqVarPart = allPartitions(set(for j from 1 to nodes list j));
+    topOrdDags := generateDagsFromFile(allFiles_i);
+    allEqVarPart := allPartitions(set(for j from 1 to nodes list j));
+    allEqVarPart = apply(allEqVarPart,ptt->unifyPtt(nodes,ptt));
     timeLimit := timeLimits_i;
     print(concatenate("Computing ",#allEqVarPart," variance partitions."));
 
+    -- main
     for p from 0 to #allEqVarPart-1 do (
 
         -- possibility to select only some variance partitions

@@ -13,8 +13,9 @@ nIdeals := parse(readline(fileIn)):
 ideals := Array(1..nIdeals):
 for i from 1 to nIdeals do
     #ideals(i) := convert(readline(fileIn),PolynomialIdeals:-PolynomialIdeal):
-    tmp:=parse(readline(fileIn)):
-    ideals(i):=parse(convert(tmp,string));
+    # tmp:=parse(readline(fileIn)):
+    # ideals(i):=parse(convert(tmp,string));
+    ideals(i) := parse(readline(fileIn));
 end do:
 fclose(fileIn):
 

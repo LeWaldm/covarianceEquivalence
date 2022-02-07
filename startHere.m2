@@ -1,6 +1,10 @@
-load "utils.m2";
-load "loadAndSaveResults.m2";
-load "exploreResults.m2";
+load "lib/utils.m2";
+load "lib/loadAndSaveResults.m2";
+load "lib/exploreResults.m2";
+
+----------------------------
+SMALL SCALE USAGE
+---------------------------
 
 -- setup environment
 env = createEnv(4)
@@ -18,10 +22,10 @@ dags = generateDAGs(3);
 (groups,ideals) =  compVanishingIdealAll(env,dags,{});
 
 -- save computation
-saveResults("test5",env,eqVarPart,dags,ideals,groups);
+saveResults("test3",env,eqVarPart,dags,ideals,groups);
 
 -- load results
-(env,allVarPart,allGroups,dags,ideals) = loadResults("test5");
+(env,allVarPart,allGroups,dags,ideals) = loadResults("test3");
 groups = allGroups_0;
 
 -- look at computations
@@ -32,4 +36,10 @@ showNGroupsWithMMembers(dags,groups,3,3);
 showAlgEqGroupOf(dags,groups,digraph({{1,2},{2,3}}));
 
 
-
+----------------------------
+LARGE SCALE USAGE
+---------------------------
+-- adjust parameters in scripts lib/createVanIdealDb.m2 and 
+-- lib/compareFromDbm.m2 and then execute them
+load "lib/createVanIdealDb.m2"
+load "lib/compareFromDbm.m2"
