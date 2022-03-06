@@ -5,24 +5,24 @@ load "lib/loadAndSaveResults.m2"
 
 
 filesPermu = {
-    "results/final/permu3_{{1}, {2}, {3}}",
-    "results/final/permu3_{{1, 2}, {3}}",
-    "results/final/permu3_{{1, 2, 3}}",
-    "results/final/permu4_{{1}, {2}, {3}, {4}}",
-    "results/final/permu4_{{1, 2}, {3}, {4}}",
-    "results/final/permu4_{{1, 2}, {3, 4}}",
-    "results/final/permu4_{{1, 2, 3}, {4}}",
-    "results/final/permu4_{{1, 2, 3, 4}}"
+    "results/improved/3improved_{{1}, {2}, {3}}",
+    "results/improved/3improved_{{1, 2}, {3}}",
+    "results/improved/3improved_{{1, 2, 3}}"
+    -- "results/final/permu4_{{1}, {2}, {3}, {4}}",
+    -- "results/final/permu4_{{1, 2}, {3}, {4}}",
+    -- "results/final/permu4_{{1, 2}, {3, 4}}",
+    -- "results/final/permu4_{{1, 2, 3}, {4}}",
+    -- "results/final/permu4_{{1, 2, 3, 4}}"
 }
 filesDirect = {
-    "results/direct/direct3_{{1}, {2}, {3}}",
-    "results/direct/direct3_{{1, 2}, {3}}",
-    "results/direct/direct3_{{1, 2, 3}}",
-    "results/direct/direct4_{{1}, {2}, {3}, {4}}",
-    "results/direct/direct4_{{1, 2}, {3}, {4}}",
-    "results/direct/direct4_{{1, 2}, {3, 4}}",
-    "results/direct/direct4_{{1, 2, 3}, {4}}",
-    "results/direct/direct4_{{1, 2, 3, 4}}"
+    "results/base/3base_{{1}, {2}, {3}}",
+    "results/base/3base_{{1, 2}, {3}}",
+    "results/base/3base_{{1, 2, 3}}"
+    -- "results/direct/direct4_{{1}, {2}, {3}, {4}}",
+    -- "results/direct/direct4_{{1, 2}, {3}, {4}}",
+    -- "results/direct/direct4_{{1, 2}, {3, 4}}",
+    -- "results/direct/direct4_{{1, 2, 3}, {4}}",
+    -- "results/direct/direct4_{{1, 2, 3, 4}}"
 }
 
 for i from 0 to #filesPermu-1 do (

@@ -158,29 +158,38 @@ allPartitions = s -> (
     return l;
 )
 
--- function that creates all the unique topologically sorted dags from txt file
--- file has format of http://users.cecs.anu.edu.au/~bdm/data/digraphs.html,
--- ie one dag per line, entries of directed edges matrix in row form
--- with 1 for an edge
-generateDagsFromFile = file -> (
-    fileLines := lines(get(file));
-    l := length(fileLines_0);
-    nodes = round((1 + sqrt(1+8*l) )//2);
-    dags := {};
-    allNodes := for i from 1 to nodes list i;
+-- generates the base partitions B_n as described in the thesis
+generateBasePartitions = n -> (
+    pttOfInteger = partitions(n);
+    basePtts =  for p in pttOfInteger list (
+        counter = 1;
+        for i in p list 
+            for j from counter to counter+i-1 list (
+                counter = counter+1;   
+                j
+            )
+    )
+)
 
-    for d from 0 to length(fileLines)-1 do (
-        edgesList := {};
-        for i from 1 to nodes-1 do (
-            for j from i+1 to nodes do (
-                ind = (i-1)*(nodes-1) - (i*(i-1)//2) + j-2; -- double checked  
-                if (fileLines_d)_ind == "1" then 
-                    edgesList = append(edgesList,{i,j});
-            );
-        );
-        dags = append(dags,digraph(allNodes,edgesList));
-    );
-    return dags;
+-- transforms a partition into a unique format, ie.
+-- (1) fills an implicit partition with all missing 1 element sets and
+-- (2) sorts the partition
+-- This could probably als be achieved with sets.
+unifyPtt = (nodes,ptt) -> (
+
+    -- fill partition
+    for i from 1 to nodes do (
+        j := 0;
+        while j < #ptt and not isSubset(set({i}),set(ptt_j)) do
+            j = j + 1;       
+        if j == #ptt then 
+            ptt = append(ptt,{i});
+    );  
+
+    -- sort partition
+    ptt = sort(apply(ptt,sort));
+
+    return ptt;
 )
 
 
@@ -257,14 +266,6 @@ vanishingIdeal (List,Digraph,List,String) := (e,d,l,m) -> vanishingIdeal1(e,d,l,
 --vanishingIdeal (List,Digraph,List,String,numeric) := (e,d,l,m,t) -> vanishingIdeal1(e,d,l,m,t);
 
 
--- gets ideal and returns a string of maple code that generates this ideal
--- in maple
-idealM2ToMpl = (ideal) -> (
-    str := substring(toString(ideal),5);
-    str = addUnderline(str);
-    str = concatenate("PolynomialIdeal",str);
-    return str;
-)
 
 -- takes string replaces '_' by '__'
 addUnderline = str -> (
@@ -280,6 +281,16 @@ addUnderline = str -> (
     );
     return concatenate(for i from 0 to idx-1 list l#i);
 );
+
+-- gets ideal and returns a string of maple code that generates this ideal
+-- in maple
+idealM2ToMpl = (ideal) -> (
+    str := substring(toString(ideal),5);
+    str = addUnderline(str);
+    str = concatenate("PolynomialIdeal",str);
+    return str;
+)
+
 
 -- gets string of ideal from maple generated from convert(ideal,string)
 -- and returns a macauly2 ideal
@@ -373,58 +384,35 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
 -- eliminateMaple(Ideal,List,ZZ) := (i,v,t) -> eliminateMaple1(i,v,t)
 
 
--- transforms a partition into a unique format, ie.
--- (1) fills an implicit partition with all missing 1 element sets and
--- (2) sorts the partition
--- This could probably als be achieved with sets.
-unifyPtt = (nodes,ptt) -> (
-
-    -- fill partition
-    for i from 1 to nodes do (
-        j := 0;
-        while j < #ptt and not isSubset(set({i}),set(ptt_j)) do
-            j = j + 1;       
-        if j == #ptt then 
-            ptt = append(ptt,{i});
-    );  
-
-    -- sort partition
-    ptt = sort(apply(ptt,sort));
-
-    return ptt;
-)
-
--- function to print a list with one line per element
-lprint = l -> for i from 0 to #l-1 do print(l_i);
-
 -- nice progress bar for computations
 -- takes value from 0 to 1 indicating the progress
 progressBar = prc -> (
     run(concatenate("printf '",toString(numeric(prc)*100)," percent \r'"));
 )
 
+
 -- compares all vanishing ideals and returns groups of equal vanIdeals.
--- If compMethod == "m2" then vanIdeals needs to be Hashtable
--- If compMethod == "maple" then vanideals needs to be list.
+-- If compMethod == "m2" then vanIdeals needs to be list of trings
+-- If compMethod == "maple" then vanideals needs to be list of strings.
 compareVanIdeals = (vanIdeals,compMethod) -> (
 
     -- variables
     relPathToMplCompScript := "lib/compareIdeals.mpl";
 
     -- main
-    elapsedTime if compMethod == "m2" then (  
+    if compMethod == "m2" then (  
         print("Comparing ideals ...");  
-        nIdeals := #(keys(vanIdeals));
+        nIdeals := #vanIdeals;
         equivResults := {};
         elapsedTime for i from 0 to nIdeals-2 do (
             progressBar(i/nIdeals);
             --print(concatenate(toString(i+1),"/",toString(#dags-1)));        
             for j from i+1 to nIdeals-1 do(
-                if toString(vanIdeals#i) == "ideal()" then (
-                    if toString(vanIdeals#j) == "ideal()" then
+                if toString(vanIdeals_i) == "ideal()" then (
+                    if toString(vanIdeals_j) == "ideal()" then
                         equivResults = append(equivResults,{i,j})
-                ) else if toString(vanIdeals#j) != "ideal()" and
-                    vanIdeals#i == vanishingIdeals#j then 
+                ) else if toString(vanIdeals_j) != "ideal()" and
+                    vanIdeals_i == vanIdeals_j then 
                         equivResults = append(equivResults,{i,j}
                 );  
             );
@@ -433,7 +421,8 @@ compareVanIdeals = (vanIdeals,compMethod) -> (
         print("Computing groups with equal ideals...");
         allNodes := for i from 0 to #dags-1 list i;
         groups = elapsedTime connectedComponents(graph(allNodes, equivResults));
-    
+        return groups;
+
     ) else if compMethod == "maple" then (
 
         -- print all ideals to a file with one ideal per line and call 
@@ -463,37 +452,11 @@ compareVanIdeals = (vanIdeals,compMethod) -> (
         groupsMpl := value(get(fileNameMplOut));
         groups := apply(groupsMpl,group->apply(group,i->i-1));
         removeFile(fileNameMplOut);
+        return groups;
     ) else 
         error("Unknown compare method.");
-    return groups;
 )
 
--- naive function that computes all vanishingIdeals directly and
--- then compare them.
--- input: 
---  - env: environemnt as output of createEnv
---  - dags: set of graphs to compare as list of digraphs 
---  - eqVarpart: equal variance groupings as list of lists
---  - elimMethod: program to use, either "m2" or "maple"
--- output: list of lists with groups index of graphs with identical vanishing ideal
-compVanishingIdealAllDirect = method()
-compVanishingIdealAllDirect1 := (env,dags,eqVarPart,elimMethod) -> (
-    vanishingIdeals := new MutableHashTable;
-    print("Computing and saving ideals ... ");
-    elapsedTime (for i from 0 to #dags-1 do (
-        print(concatenate(toString(i+1),"/",toString(#dags)));
-        vanishingIdeals#i = ((vanishingIdeal(env,dags_i,eqVarPart,elimMethod))); 
-    ));
-
-    -- compute groups with identical vanishingIdeal
-    if elimMethod == "maple" then
-        vanishingIdeals = for i from 0 to #dags-1 list vanishingIdeals#i;
-    return compareVanIdeals(vanishingIdeals,elimMethod);
-)
-compVanishingIdealAllDirect (List,List,List) := 
-    (e,d,v) -> compVanishingIdealAllDirect1(e,d,v,"m2");
-compVanishingIdealAllDirect (List,List,List,String) := 
-    (e,d,v,s) -> compVanishingIdealAllDirect1(e,d,v,s);
 
 
 

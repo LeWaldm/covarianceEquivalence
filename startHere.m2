@@ -3,7 +3,7 @@ load "lib/loadAndSaveResults.m2";
 load "lib/exploreResults.m2";
 
 ----------------------------
-SMALL SCALE USAGE
+-- SMALL SCALE USAGE
 ---------------------------
 
 -- setup environment
@@ -37,7 +37,7 @@ showAlgEqGroupOf(dags,groups,digraph({{1,2},{2,3}}));
 
 
 ----------------------------
-LARGE SCALE USAGE
+-- LARGE SCALE USAGE
 ---------------------------
 -- adjust parameters in scripts lib/createVanIdealDb.m2 and 
 -- lib/compareFromDbm.m2 and then execute them
