@@ -115,7 +115,6 @@ checkIsCyclic = G -> (
 
 -- generate all DAGs with certain number of nodes
 generateDAGs = nodes -> (
-    --print("warning: generated all oriented graphs, not DAGs!");
 
     -- generate powerset
     nUndirectedEdges := nodes*(nodes-1)//2;
@@ -140,11 +139,10 @@ generateDAGs = nodes -> (
         );
         g := digraph(allNodes,edgesCurr);
         
-        --only add if graph acylic
+        -- only add if graph acylic
         if not(checkIsCyclic(g)) then (
             dags = append(dags,g);           
         );
-        --dags = append(dags,g);
     );
     dags
 )
@@ -158,18 +156,6 @@ allPartitions = s -> (
         l = join(l,apply(tmpSet,x->apply(toList(x),toList)));
     );
     return l;
-)
-
-generateBasePartitions = n -> (
-    pttOfInteger = partitions(n);
-    basePtts =  for p in pttOfInteger list (
-        counter = 1;
-        for i in p list 
-            for j from counter to counter+i-1 list (
-                counter = counter+1;   
-                j
-            )
-    )
 )
 
 -- function that creates all the unique topologically sorted dags from txt file
@@ -257,15 +243,10 @@ vanishingIdeal1 = args -> (
     
     -- calculate the vanishing ideal as elimination ideal by eliminating all Lambda entries
     elimIdeal := null;
-    if methodElim == "m2" then (
-        Isaturated = saturate(I,det(id_(R^n) - L));
-        elimIdeal = eliminate(toEliminate,Isaturated)
-    )
-    else if methodElim == "maple" then (
-        polyn := det(id_(R^n) - L);
-        elimIdeal = saturateElimMpl(I,polyn,toKeep,timeLimit);
-        --elimIdeal = eliminateMaple(Isaturated,toKeep,timeLimit);
-    )
+    if methodElim == "m2" then
+        elimIdeal = eliminate(toEliminate,I)
+    else if methodElim == "maple" then 
+        elimIdeal = eliminateMaple(I,toKeep,timeLimit)
     else 
         error("Illegal value for elimMethod.");
     return elimIdeal;
@@ -275,45 +256,11 @@ vanishingIdeal (List,Digraph,List) := (e,d,l) -> vanishingIdeal1(e,d,l,"m2",-1);
 vanishingIdeal (List,Digraph,List,String) := (e,d,l,m) -> vanishingIdeal1(e,d,l,m,-1);
 --vanishingIdeal (List,Digraph,List,String,numeric) := (e,d,l,m,t) -> vanishingIdeal1(e,d,l,m,t);
 
--- saturates and the eliminates ideal in maple
-saturateElimMpl = (I,polyn,toKeep,timeLimit) -> (
-    fileMplCode := temporaryFileName() | ".mpl";
-    fileMplOut := temporaryFileName();
-
-    -- fill maple file and execute (TODO: put template as .mpl file into lib/
-    --     that is filled as for compareFromDbm function)
-    fileMplCode << "with(PolynomialIdeals):";
-    filestr := concatenate("\"",toString(fileMplOut),"\"");
-    fileMplCode << "fileNameWrite := " << filestr << ":";
-    fileMplCode << "J := " << idealM2ToMpl(I) << ":";
-    fileMplCode << "vars := " << addUnderline(toString(toKeep)) <<":";
-    fileMplCode << "J = saturate(J," << addUnderline(toString(polyn)) << "):";
-    fileMplCode << "print(\"saturated\"):"; 
-    fileMplCode << "start:=time():";
-    if timeLimit > 0 then 
-        fileMplCode << "try E:=timelimit("<< toString(timeLimit) << ",EliminationIdeal(J,vars)): catch \"time expired\": E:=\"null\" end try:"
-    else 
-        fileMplCode << "E:=EliminationIdeal(J,vars):";
-    fileMplCode << "t:=time()-start:";
-    fileMplCode << "print(\"eliminated\"):";
-    fileMplCode << "fileOut:=fopen(fileNameWrite,'WRITE','TEXT'):";
-    fileMplCode << "writeline(fileOut,convert(E,string)):";
-    fileMplCode << "writeline(fileOut,convert(t,string)):"<<endl;
-    fileMplCode << close;
-    run(concatenate("maple ",toString(fileMplCode)," -q"));
-    
-    -- retrieve result
-    fileMplOut;
-    results := lines(get(fileMplOut));
-    removeFile(fileMplCode);
-    removeFile(fileMplOut);
-    return results_0;
-)
 
 -- gets ideal and returns a string of maple code that generates this ideal
 -- in maple
-idealM2ToMpl = (I) -> (
-    str := substring(toString(I),5);
+idealM2ToMpl = (ideal) -> (
+    str := substring(toString(ideal),5);
     str = addUnderline(str);
     str = concatenate("PolynomialIdeal",str);
     return str;
@@ -429,7 +376,7 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
 -- transforms a partition into a unique format, ie.
 -- (1) fills an implicit partition with all missing 1 element sets and
 -- (2) sorts the partition
--- This could probably also be achieved with sets.
+-- This could probably als be achieved with sets.
 unifyPtt = (nodes,ptt) -> (
 
     -- fill partition
@@ -465,7 +412,7 @@ compareVanIdeals = (vanIdeals,compMethod) -> (
     relPathToMplCompScript := "lib/compareIdeals.mpl";
 
     -- main
-    if compMethod == "m2" then (  
+    elapsedTime if compMethod == "m2" then (  
         print("Comparing ideals ...");  
         nIdeals := #(keys(vanIdeals));
         equivResults := {};
@@ -477,17 +424,17 @@ compareVanIdeals = (vanIdeals,compMethod) -> (
                     if toString(vanIdeals#j) == "ideal()" then
                         equivResults = append(equivResults,{i,j})
                 ) else if toString(vanIdeals#j) != "ideal()" and
-                    vanIdeals#i == vanIdeals#j then 
+                    vanIdeals#i == vanishingIdeals#j then 
                         equivResults = append(equivResults,{i,j}
                 );  
             );
         );
 
         print("Computing groups with equal ideals...");
-        allNodes := for i from 0 to #(keys(vanIdeals))-1 list i;
-        groups := elapsedTime connectedComponents(graph(allNodes, equivResults));
-        return groups;
-    ) else if compMethod == "maple" then elapsedTime(
+        allNodes := for i from 0 to #dags-1 list i;
+        groups = elapsedTime connectedComponents(graph(allNodes, equivResults));
+    
+    ) else if compMethod == "maple" then (
 
         -- print all ideals to a file with one ideal per line and call 
         --    maple script that compares all the ideals and calculates the
@@ -516,9 +463,9 @@ compareVanIdeals = (vanIdeals,compMethod) -> (
         groupsMpl := value(get(fileNameMplOut));
         groups := apply(groupsMpl,group->apply(group,i->i-1));
         removeFile(fileNameMplOut);
-        return groups;
     ) else 
         error("Unknown compare method.");
+    return groups;
 )
 
 -- naive function that computes all vanishingIdeals directly and
