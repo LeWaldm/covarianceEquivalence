@@ -1,0 +1,836 @@
+% new figure --------------------------------------------------------------------
+\begin{figure}[h]
+  \centering
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (27.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (0);
+\draw [->] (2) ..controls (27.0bp,207.98bp) and (27.0bp,198.71bp)  .. (3);
+\draw [->] (3) ..controls (27.0bp,135.98bp) and (27.0bp,126.71bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (54.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (82.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (137.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (36.514bp,64.335bp) and (40.334bp,54.431bp)  .. (1);
+\draw [->] (2) ..controls (62.786bp,136.55bp) and (53.337bp,124.52bp)  .. (0);
+\draw [->] (2) ..controls (73.829bp,119.56bp) and (65.007bp,74.819bp)  .. (1);
+\draw [->] (2) ..controls (101.21bp,136.55bp) and (110.66bp,124.52bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (63.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (0);
+\draw [->] (2) ..controls (50.288bp,136.28bp) and (44.853bp,125.71bp)  .. (1);
+\draw [->] (2) ..controls (75.712bp,136.28bp) and (81.147bp,125.71bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (63.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (135.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (86.288bp,64.283bp) and (80.853bp,53.714bp)  .. (1);
+\draw [->] (2) ..controls (111.71bp,64.283bp) and (117.15bp,53.714bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (73.0bp,162.0bp) [draw,ellipse] {$2$};
+\node (2) at (73.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (118.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (51.792bp,135.85bp) and (42.171bp,121.98bp)  .. (37.0bp,108.0bp) .. controls (29.685bp,88.222bp) and (27.314bp,64.422bp)  .. (0);
+\draw [->] (1) ..controls (73.0bp,135.98bp) and (73.0bp,126.71bp)  .. (2);
+\draw [->] (1) ..controls (94.282bp,135.87bp) and (103.91bp,122.01bp)  .. (109.0bp,108.0bp) .. controls (116.2bp,88.206bp) and (118.29bp,64.406bp)  .. (3);
+\draw [->] (2) ..controls (56.798bp,64.345bp) and (49.516bp,53.264bp)  .. (0);
+\draw [->] (2) ..controls (88.85bp,64.345bp) and (95.973bp,53.264bp)  .. (3);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (54.0bp,234.0bp) [draw,ellipse] {$1$};
+\node (2) at (27.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (82.0bp,90.0bp) [draw,ellipse] {$4$};
+\node (1) at (54.0bp,18.0bp) [draw,ellipse] {$2$};
+\draw [->] (0) ..controls (44.486bp,208.34bp) and (40.666bp,198.43bp)  .. (2);
+\draw [->] (0) ..controls (62.171bp,191.56bp) and (70.993bp,146.82bp)  .. (3);
+\draw [->] (2) ..controls (34.858bp,119.67bp) and (43.312bp,75.211bp)  .. (1);
+\draw [->] (2) ..controls (46.214bp,136.55bp) and (55.663bp,124.52bp)  .. (3);
+\draw [->] (3) ..controls (72.087bp,64.216bp) and (68.056bp,54.14bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (55.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (0);
+\draw [->] (2) ..controls (21.954bp,205.54bp) and (19.905bp,192.06bp)  .. (19.0bp,180.0bp) .. controls (17.803bp,164.04bp) and (17.803bp,159.96bp)  .. (19.0bp,144.0bp) .. controls (19.637bp,135.52bp) and (20.838bp,126.34bp)  .. (1);
+\draw [->] (2) ..controls (36.913bp,208.22bp) and (40.944bp,198.14bp)  .. (3);
+\draw [->] (3) ..controls (45.087bp,136.22bp) and (41.056bp,126.14bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (99.0bp,135.98bp) and (99.0bp,126.71bp)  .. (3);
+\draw [->] (3) ..controls (99.0bp,63.983bp) and (99.0bp,54.712bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (99.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (63.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (50.288bp,136.28bp) and (44.853bp,125.71bp)  .. (1);
+\draw [->] (2) ..controls (75.712bp,136.28bp) and (81.147bp,125.71bp)  .. (3);
+\draw [->] (3) ..controls (99.0bp,63.983bp) and (99.0bp,54.712bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (63.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (63.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (63.0bp,135.98bp) and (63.0bp,126.71bp)  .. (3);
+\draw [->] (3) ..controls (50.288bp,64.283bp) and (44.853bp,53.714bp)  .. (0);
+\draw [->] (3) ..controls (75.712bp,64.283bp) and (81.147bp,53.714bp)  .. (1);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (55.0bp,234.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (55.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (55.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (33.039bp,208.1bp) and (23.381bp,194.25bp)  .. (19.0bp,180.0bp) .. controls (5.0323bp,134.58bp) and (13.114bp,78.578bp)  .. (1);
+\draw [->] (0) ..controls (55.0bp,207.98bp) and (55.0bp,198.71bp)  .. (2);
+\draw [->] (0) ..controls (76.961bp,208.1bp) and (86.619bp,194.25bp)  .. (91.0bp,180.0bp) .. controls (95.703bp,164.71bp) and (95.703bp,159.29bp)  .. (91.0bp,144.0bp) .. controls (87.714bp,133.31bp) and (81.46bp,122.85bp)  .. (3);
+\draw [->] (2) ..controls (55.0bp,135.98bp) and (55.0bp,126.71bp)  .. (3);
+\draw [->] (3) ..controls (45.087bp,64.216bp) and (41.056bp,54.14bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,162.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (55.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (21.954bp,133.54bp) and (19.905bp,120.06bp)  .. (19.0bp,108.0bp) .. controls (17.803bp,92.045bp) and (17.803bp,87.955bp)  .. (19.0bp,72.0bp) .. controls (19.637bp,63.518bp) and (20.838bp,54.336bp)  .. (0);
+\draw [->] (2) ..controls (36.913bp,136.22bp) and (40.944bp,126.14bp)  .. (3);
+\draw [->] (3) ..controls (45.087bp,64.216bp) and (41.056bp,54.14bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,162.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (27.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (27.0bp,135.98bp) and (27.0bp,126.71bp)  .. (3);
+\draw [->] (3) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (54.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (82.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (46.142bp,119.67bp) and (37.688bp,75.211bp)  .. (0);
+\draw [->] (2) ..controls (63.913bp,136.22bp) and (67.944bp,126.14bp)  .. (3);
+\draw [->] (3) ..controls (62.786bp,64.546bp) and (53.337bp,52.52bp)  .. (0);
+\draw [->] (3) ..controls (88.008bp,64.261bp) and (90.3bp,54.822bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (32.627bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (41.627bp,234.0bp) [draw,ellipse] {$2$};
+\node (2) at (41.627bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (87.627bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (19.666bp,208.1bp) and (10.008bp,194.25bp)  .. (5.6271bp,180.0bp) .. controls (-8.6549bp,133.56bp) and (8.3024bp,77.11bp)  .. (0);
+\draw [->] (1) ..controls (41.627bp,207.98bp) and (41.627bp,198.71bp)  .. (2);
+\draw [->] (1) ..controls (62.835bp,207.85bp) and (72.456bp,193.98bp)  .. (77.627bp,180.0bp) .. controls (84.942bp,160.22bp) and (87.313bp,136.42bp)  .. (3);
+\draw [->] (2) ..controls (39.008bp,119.67bp) and (36.19bp,75.211bp)  .. (0);
+\draw [->] (2) ..controls (57.829bp,136.34bp) and (65.111bp,125.26bp)  .. (3);
+\draw [->] (3) ..controls (68.414bp,64.546bp) and (58.964bp,52.52bp)  .. (0);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (54.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (2) at (27.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (54.0bp,18.0bp) [draw,ellipse] {$4$};
+\node (1) at (54.0bp,234.0bp) [draw,ellipse] {$2$};
+\draw [->] (0) ..controls (44.486bp,136.34bp) and (40.666bp,126.43bp)  .. (2);
+\draw [->] (0) ..controls (59.676bp,133.57bp) and (61.981bp,120.09bp)  .. (63.0bp,108.0bp) .. controls (64.344bp,92.057bp) and (64.344bp,87.943bp)  .. (63.0bp,72.0bp) .. controls (62.283bp,63.499bp) and (60.931bp,54.312bp)  .. (3);
+\draw [->] (1) ..controls (54.0bp,207.98bp) and (54.0bp,198.71bp)  .. (0);
+\draw [->] (2) ..controls (36.514bp,64.335bp) and (40.334bp,54.431bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (27.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (1);
+\draw [->] (2) ..controls (27.0bp,207.98bp) and (27.0bp,198.71bp)  .. (3);
+\draw [->] (3) ..controls (27.0bp,135.98bp) and (27.0bp,126.71bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (55.0bp,234.0bp) [draw,ellipse] {$2$};
+\node (2) at (55.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (55.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (33.039bp,208.1bp) and (23.381bp,194.25bp)  .. (19.0bp,180.0bp) .. controls (5.0323bp,134.58bp) and (13.114bp,78.578bp)  .. (0);
+\draw [->] (1) ..controls (55.0bp,207.98bp) and (55.0bp,198.71bp)  .. (2);
+\draw [->] (1) ..controls (76.961bp,208.1bp) and (86.619bp,194.25bp)  .. (91.0bp,180.0bp) .. controls (95.703bp,164.71bp) and (95.703bp,159.29bp)  .. (91.0bp,144.0bp) .. controls (87.714bp,133.31bp) and (81.46bp,122.85bp)  .. (3);
+\draw [->] (2) ..controls (55.0bp,135.98bp) and (55.0bp,126.71bp)  .. (3);
+\draw [->] (3) ..controls (45.087bp,64.216bp) and (41.056bp,54.14bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,162.0bp) [draw,ellipse] {$2$};
+\node (2) at (71.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (98.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (89.087bp,136.22bp) and (85.056bp,126.14bp)  .. (2);
+\draw [->] (1) ..controls (104.05bp,133.54bp) and (106.09bp,120.06bp)  .. (107.0bp,108.0bp) .. controls (108.2bp,92.045bp) and (108.34bp,87.943bp)  .. (107.0bp,72.0bp) .. controls (106.28bp,63.499bp) and (104.93bp,54.312bp)  .. (3);
+\draw [->] (2) ..controls (80.514bp,64.335bp) and (84.334bp,54.431bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (54.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (54.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (82.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (36.514bp,64.335bp) and (40.334bp,54.431bp)  .. (0);
+\draw [->] (2) ..controls (46.142bp,191.67bp) and (37.688bp,147.21bp)  .. (1);
+\draw [->] (2) ..controls (63.913bp,208.22bp) and (67.944bp,198.14bp)  .. (3);
+\draw [->] (3) ..controls (73.829bp,119.56bp) and (65.007bp,74.819bp)  .. (0);
+\draw [->] (3) ..controls (62.786bp,136.55bp) and (53.337bp,124.52bp)  .. (1);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\caption{Caption}
+\end{figure}
+
+% new figure --------------------------------------------------------------------
+\begin{figure}[h]
+  \centering
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (99.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (54.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (82.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (46.142bp,119.67bp) and (37.688bp,75.211bp)  .. (1);
+\draw [->] (2) ..controls (63.913bp,136.22bp) and (67.944bp,126.14bp)  .. (3);
+\draw [->] (3) ..controls (88.008bp,64.261bp) and (90.3bp,54.822bp)  .. (0);
+\draw [->] (3) ..controls (62.786bp,64.546bp) and (53.337bp,52.52bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (54.0bp,234.0bp) [draw,ellipse] {$1$};
+\node (1) at (54.0bp,162.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (54.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (54.0bp,207.98bp) and (54.0bp,198.71bp)  .. (1);
+\draw [->] (1) ..controls (44.486bp,136.34bp) and (40.666bp,126.43bp)  .. (2);
+\draw [->] (1) ..controls (59.676bp,133.57bp) and (61.981bp,120.09bp)  .. (63.0bp,108.0bp) .. controls (64.344bp,92.057bp) and (64.344bp,87.943bp)  .. (63.0bp,72.0bp) .. controls (62.283bp,63.499bp) and (60.931bp,54.312bp)  .. (3);
+\draw [->] (2) ..controls (36.514bp,64.335bp) and (40.334bp,54.431bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (54.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (54.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (82.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (36.514bp,64.335bp) and (40.334bp,54.431bp)  .. (1);
+\draw [->] (2) ..controls (46.142bp,191.67bp) and (37.688bp,147.21bp)  .. (0);
+\draw [->] (2) ..controls (63.913bp,208.22bp) and (67.944bp,198.14bp)  .. (3);
+\draw [->] (3) ..controls (62.786bp,136.55bp) and (53.337bp,124.52bp)  .. (0);
+\draw [->] (3) ..controls (73.829bp,119.56bp) and (65.007bp,74.819bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (47.892bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (39.892bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (39.892bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (111.89bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (17.931bp,136.1bp) and (8.2731bp,122.25bp)  .. (3.8921bp,108.0bp) .. controls (-0.81068bp,92.707bp) and (-1.5407bp,87.049bp)  .. (3.8921bp,72.0bp) .. controls (8.1635bp,60.168bp) and (16.353bp,49.111bp)  .. (0);
+\draw [->] (2) ..controls (39.892bp,135.98bp) and (39.892bp,126.71bp)  .. (1);
+\draw [->] (2) ..controls (64.642bp,136.94bp) and (78.416bp,123.55bp)  .. (3);
+\draw [->] (3) ..controls (89.58bp,64.596bp) and (78.058bp,51.994bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (63.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (39.712bp,64.283bp) and (45.147bp,53.714bp)  .. (1);
+\draw [->] (2) ..controls (99.0bp,135.98bp) and (99.0bp,126.71bp)  .. (3);
+\draw [->] (3) ..controls (86.288bp,64.283bp) and (80.853bp,53.714bp)  .. (1);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (54.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (54.0bp,234.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (54.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (44.486bp,208.34bp) and (40.666bp,198.43bp)  .. (2);
+\draw [->] (1) ..controls (59.676bp,205.57bp) and (61.981bp,192.09bp)  .. (63.0bp,180.0bp) .. controls (64.344bp,164.06bp) and (64.344bp,159.94bp)  .. (63.0bp,144.0bp) .. controls (62.283bp,135.5bp) and (60.931bp,126.31bp)  .. (3);
+\draw [->] (2) ..controls (36.514bp,136.34bp) and (40.334bp,126.43bp)  .. (3);
+\draw [->] (3) ..controls (54.0bp,63.983bp) and (54.0bp,54.712bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (171.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (74.25bp,64.938bp) and (60.476bp,51.546bp)  .. (0);
+\draw [->] (2) ..controls (99.0bp,63.983bp) and (99.0bp,54.712bp)  .. (1);
+\draw [->] (2) ..controls (123.75bp,64.938bp) and (137.52bp,51.546bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (41.473bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (41.473bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (32.473bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (87.473bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (41.473bp,63.983bp) and (41.473bp,54.712bp)  .. (1);
+\draw [->] (2) ..controls (35.093bp,191.67bp) and (37.911bp,147.21bp)  .. (0);
+\draw [->] (2) ..controls (12.185bp,187.23bp) and (-10.354bp,123.47bp)  .. (5.4732bp,72.0bp) .. controls (8.759bp,61.315bp) and (15.013bp,50.851bp)  .. (1);
+\draw [->] (2) ..controls (51.687bp,208.55bp) and (61.136bp,196.52bp)  .. (3);
+\draw [->] (3) ..controls (71.271bp,136.34bp) and (63.989bp,125.26bp)  .. (0);
+\draw [->] (3) ..controls (87.915bp,125.35bp) and (86.265bp,95.77bp)  .. (77.473bp,72.0bp) .. controls (73.595bp,61.515bp) and (67.214bp,51.095bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (55.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (55.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (127.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (45.087bp,64.216bp) and (41.056bp,54.14bp)  .. (0);
+\draw [->] (2) ..controls (33.039bp,136.1bp) and (23.381bp,122.25bp)  .. (19.0bp,108.0bp) .. controls (12.749bp,87.671bp) and (15.487bp,63.592bp)  .. (0);
+\draw [->] (2) ..controls (55.0bp,135.98bp) and (55.0bp,126.71bp)  .. (1);
+\draw [->] (2) ..controls (79.75bp,136.94bp) and (93.524bp,123.55bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (39.527bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (66.527bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (39.527bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (39.527bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (49.041bp,64.335bp) and (52.861bp,54.431bp)  .. (1);
+\draw [->] (2) ..controls (17.566bp,208.1bp) and (7.9081bp,194.25bp)  .. (3.5271bp,180.0bp) .. controls (-1.1757bp,164.71bp) and (-1.1757bp,159.29bp)  .. (3.5271bp,144.0bp) .. controls (6.8129bp,133.31bp) and (13.067bp,122.85bp)  .. (0);
+\draw [->] (2) ..controls (61.488bp,208.1bp) and (71.146bp,194.25bp)  .. (75.527bp,180.0bp) .. controls (89.499bp,134.56bp) and (80.976bp,78.568bp)  .. (1);
+\draw [->] (2) ..controls (39.527bp,207.98bp) and (39.527bp,198.71bp)  .. (3);
+\draw [->] (3) ..controls (39.527bp,135.98bp) and (39.527bp,126.71bp)  .. (0);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (54.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (2) at (27.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (54.0bp,18.0bp) [draw,ellipse] {$4$};
+\node (1) at (126.0bp,162.0bp) [draw,ellipse] {$2$};
+\draw [->] (0) ..controls (44.486bp,136.34bp) and (40.666bp,126.43bp)  .. (2);
+\draw [->] (0) ..controls (59.676bp,133.57bp) and (61.981bp,120.09bp)  .. (63.0bp,108.0bp) .. controls (64.344bp,92.057bp) and (64.344bp,87.943bp)  .. (63.0bp,72.0bp) .. controls (62.283bp,63.499bp) and (60.931bp,54.312bp)  .. (3);
+\draw [->] (2) ..controls (36.514bp,64.335bp) and (40.334bp,54.431bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (54.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (54.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (54.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (36.514bp,64.335bp) and (40.334bp,54.431bp)  .. (1);
+\draw [->] (2) ..controls (54.0bp,207.98bp) and (54.0bp,198.71bp)  .. (3);
+\draw [->] (3) ..controls (44.486bp,136.34bp) and (40.666bp,126.43bp)  .. (0);
+\draw [->] (3) ..controls (59.676bp,133.57bp) and (61.981bp,120.09bp)  .. (63.0bp,108.0bp) .. controls (64.344bp,92.057bp) and (64.344bp,87.943bp)  .. (63.0bp,72.0bp) .. controls (62.283bp,63.499bp) and (60.931bp,54.312bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (54.0bp,234.0bp) [draw,ellipse] {$1$};
+\node (2) at (27.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (54.0bp,90.0bp) [draw,ellipse] {$4$};
+\node (1) at (54.0bp,18.0bp) [draw,ellipse] {$2$};
+\draw [->] (0) ..controls (44.486bp,208.34bp) and (40.666bp,198.43bp)  .. (2);
+\draw [->] (0) ..controls (59.676bp,205.57bp) and (61.981bp,192.09bp)  .. (63.0bp,180.0bp) .. controls (64.344bp,164.06bp) and (64.344bp,159.94bp)  .. (63.0bp,144.0bp) .. controls (62.283bp,135.5bp) and (60.931bp,126.31bp)  .. (3);
+\draw [->] (2) ..controls (36.514bp,136.34bp) and (40.334bp,126.43bp)  .. (3);
+\draw [->] (3) ..controls (54.0bp,63.983bp) and (54.0bp,54.712bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (109.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (82.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (137.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (62.786bp,136.55bp) and (53.337bp,124.52bp)  .. (0);
+\draw [->] (2) ..controls (89.858bp,119.67bp) and (98.312bp,75.211bp)  .. (1);
+\draw [->] (2) ..controls (101.21bp,136.55bp) and (110.66bp,124.52bp)  .. (3);
+\draw [->] (3) ..controls (127.09bp,64.216bp) and (123.06bp,54.14bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (73.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (2) at (27.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (82.0bp,18.0bp) [draw,ellipse] {$4$};
+\node (1) at (73.0bp,234.0bp) [draw,ellipse] {$2$};
+\draw [->] (0) ..controls (56.798bp,136.34bp) and (49.516bp,125.26bp)  .. (2);
+\draw [->] (0) ..controls (75.619bp,119.67bp) and (78.437bp,75.211bp)  .. (3);
+\draw [->] (1) ..controls (73.0bp,207.98bp) and (73.0bp,198.71bp)  .. (0);
+\draw [->] (1) ..controls (51.792bp,207.85bp) and (42.171bp,193.98bp)  .. (37.0bp,180.0bp) .. controls (29.685bp,160.22bp) and (27.314bp,136.42bp)  .. (2);
+\draw [->] (1) ..controls (94.961bp,208.1bp) and (104.62bp,194.25bp)  .. (109.0bp,180.0bp) .. controls (123.28bp,133.56bp) and (106.32bp,77.11bp)  .. (3);
+\draw [->] (2) ..controls (46.214bp,64.546bp) and (55.663bp,52.52bp)  .. (3);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (73.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (73.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (118.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (51.792bp,135.85bp) and (42.171bp,121.98bp)  .. (37.0bp,108.0bp) .. controls (29.685bp,88.222bp) and (27.314bp,64.422bp)  .. (1);
+\draw [->] (0) ..controls (73.0bp,135.98bp) and (73.0bp,126.71bp)  .. (2);
+\draw [->] (0) ..controls (94.282bp,135.87bp) and (103.91bp,122.01bp)  .. (109.0bp,108.0bp) .. controls (116.2bp,88.206bp) and (118.29bp,64.406bp)  .. (3);
+\draw [->] (2) ..controls (56.798bp,64.345bp) and (49.516bp,53.264bp)  .. (1);
+\draw [->] (2) ..controls (88.85bp,64.345bp) and (95.973bp,53.264bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (38.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (93.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (55.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (73.786bp,64.546bp) and (64.337bp,52.52bp)  .. (0);
+\draw [->] (2) ..controls (21.954bp,205.54bp) and (19.905bp,192.06bp)  .. (19.0bp,180.0bp) .. controls (15.442bp,132.59bp) and (24.85bp,77.657bp)  .. (0);
+\draw [->] (2) ..controls (36.913bp,208.22bp) and (40.944bp,198.14bp)  .. (3);
+\draw [->] (3) ..controls (50.052bp,119.67bp) and (44.729bp,75.211bp)  .. (0);
+\draw [->] (3) ..controls (68.418bp,136.28bp) and (74.155bp,125.71bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (63.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (39.712bp,64.283bp) and (45.147bp,53.714bp)  .. (0);
+\draw [->] (2) ..controls (99.0bp,135.98bp) and (99.0bp,126.71bp)  .. (3);
+\draw [->] (3) ..controls (86.288bp,64.283bp) and (80.853bp,53.714bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (63.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (1);
+\draw [->] (2) ..controls (50.288bp,136.28bp) and (44.853bp,125.71bp)  .. (0);
+\draw [->] (2) ..controls (75.712bp,136.28bp) and (81.147bp,125.71bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (1) at (98.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (126.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (93.324bp,133.57bp) and (91.019bp,120.09bp)  .. (90.0bp,108.0bp) .. controls (88.656bp,92.057bp) and (88.803bp,87.955bp)  .. (90.0bp,72.0bp) .. controls (90.637bp,63.518bp) and (91.838bp,54.336bp)  .. (1);
+\draw [->] (2) ..controls (108.51bp,136.34bp) and (112.33bp,126.43bp)  .. (3);
+\draw [->] (3) ..controls (116.09bp,64.216bp) and (112.06bp,54.14bp)  .. (1);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\caption{Caption}
+\end{figure}
+
+% new figure --------------------------------------------------------------------
+\begin{figure}[h]
+  \centering
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (171.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (171.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (171.0bp,63.983bp) and (171.0bp,54.712bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (63.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (50.288bp,136.28bp) and (44.853bp,125.71bp)  .. (0);
+\draw [->] (2) ..controls (75.712bp,136.28bp) and (81.147bp,125.71bp)  .. (3);
+\draw [->] (3) ..controls (99.0bp,63.983bp) and (99.0bp,54.712bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (55.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (1);
+\draw [->] (2) ..controls (21.954bp,205.54bp) and (19.905bp,192.06bp)  .. (19.0bp,180.0bp) .. controls (17.803bp,164.04bp) and (17.803bp,159.96bp)  .. (19.0bp,144.0bp) .. controls (19.637bp,135.52bp) and (20.838bp,126.34bp)  .. (0);
+\draw [->] (2) ..controls (36.913bp,208.22bp) and (40.944bp,198.14bp)  .. (3);
+\draw [->] (3) ..controls (45.087bp,136.22bp) and (41.056bp,126.14bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (99.0bp,162.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (126.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (74.25bp,136.94bp) and (60.476bp,123.55bp)  .. (0);
+\draw [->] (1) ..controls (99.0bp,135.98bp) and (99.0bp,126.71bp)  .. (2);
+\draw [->] (1) ..controls (120.96bp,136.1bp) and (130.62bp,122.25bp)  .. (135.0bp,108.0bp) .. controls (141.26bp,87.65bp) and (138.23bp,63.572bp)  .. (3);
+\draw [->] (2) ..controls (108.51bp,64.335bp) and (112.33bp,54.431bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (108.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (63.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (63.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (41.039bp,136.1bp) and (31.381bp,122.25bp)  .. (27.0bp,108.0bp) .. controls (20.841bp,87.97bp) and (21.207bp,64.184bp)  .. (0);
+\draw [->] (2) ..controls (84.282bp,135.87bp) and (93.907bp,122.01bp)  .. (99.0bp,108.0bp) .. controls (106.2bp,88.206bp) and (108.29bp,64.406bp)  .. (1);
+\draw [->] (2) ..controls (63.0bp,135.98bp) and (63.0bp,126.71bp)  .. (3);
+\draw [->] (3) ..controls (50.288bp,64.283bp) and (44.853bp,53.714bp)  .. (0);
+\draw [->] (3) ..controls (78.85bp,64.345bp) and (85.973bp,53.264bp)  .. (1);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (55.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (55.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (55.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (55.0bp,63.983bp) and (55.0bp,54.712bp)  .. (1);
+\draw [->] (2) ..controls (15.223bp,186.22bp) and (3.4534bp,122.56bp)  .. (19.0bp,72.0bp) .. controls (22.286bp,61.315bp) and (28.54bp,50.851bp)  .. (1);
+\draw [->] (2) ..controls (36.913bp,208.22bp) and (40.944bp,198.14bp)  .. (3);
+\draw [->] (3) ..controls (55.0bp,135.98bp) and (55.0bp,126.71bp)  .. (0);
+\draw [->] (3) ..controls (76.961bp,136.1bp) and (86.619bp,122.25bp)  .. (91.0bp,108.0bp) .. controls (95.703bp,92.707bp) and (95.703bp,87.293bp)  .. (91.0bp,72.0bp) .. controls (87.714bp,61.315bp) and (81.46bp,50.851bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (39.527bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (39.527bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (39.527bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (111.53bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (39.527bp,63.983bp) and (39.527bp,54.712bp)  .. (0);
+\draw [->] (2) ..controls (17.566bp,136.1bp) and (7.9081bp,122.25bp)  .. (3.5271bp,108.0bp) .. controls (-1.1757bp,92.707bp) and (-1.1757bp,87.293bp)  .. (3.5271bp,72.0bp) .. controls (6.8129bp,61.315bp) and (13.067bp,50.851bp)  .. (0);
+\draw [->] (2) ..controls (39.527bp,135.98bp) and (39.527bp,126.71bp)  .. (1);
+\draw [->] (2) ..controls (64.277bp,136.94bp) and (78.051bp,123.55bp)  .. (3);
+\draw [->] (3) ..controls (86.777bp,64.938bp) and (73.003bp,51.546bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (55.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (27.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (45.087bp,64.216bp) and (41.056bp,54.14bp)  .. (0);
+\draw [->] (2) ..controls (27.0bp,207.98bp) and (27.0bp,198.71bp)  .. (3);
+\draw [->] (3) ..controls (21.954bp,133.54bp) and (19.905bp,120.06bp)  .. (19.0bp,108.0bp) .. controls (17.803bp,92.045bp) and (17.803bp,87.955bp)  .. (19.0bp,72.0bp) .. controls (19.637bp,63.518bp) and (20.838bp,54.336bp)  .. (0);
+\draw [->] (3) ..controls (36.913bp,136.22bp) and (40.944bp,126.14bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (41.473bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (41.473bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (32.473bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (87.473bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (41.473bp,63.983bp) and (41.473bp,54.712bp)  .. (0);
+\draw [->] (2) ..controls (12.185bp,187.23bp) and (-10.354bp,123.47bp)  .. (5.4732bp,72.0bp) .. controls (8.759bp,61.315bp) and (15.013bp,50.851bp)  .. (0);
+\draw [->] (2) ..controls (35.093bp,191.67bp) and (37.911bp,147.21bp)  .. (1);
+\draw [->] (2) ..controls (51.687bp,208.55bp) and (61.136bp,196.52bp)  .. (3);
+\draw [->] (3) ..controls (87.915bp,125.35bp) and (86.265bp,95.77bp)  .. (77.473bp,72.0bp) .. controls (73.595bp,61.515bp) and (67.214bp,51.095bp)  .. (0);
+\draw [->] (3) ..controls (71.271bp,136.34bp) and (63.989bp,125.26bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (63.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (63.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (39.712bp,64.283bp) and (45.147bp,53.714bp)  .. (1);
+\draw [->] (2) ..controls (50.288bp,136.28bp) and (44.853bp,125.71bp)  .. (0);
+\draw [->] (2) ..controls (75.712bp,136.28bp) and (81.147bp,125.71bp)  .. (3);
+\draw [->] (3) ..controls (86.288bp,64.283bp) and (80.853bp,53.714bp)  .. (1);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (0);
+\draw [->] (2) ..controls (74.25bp,64.938bp) and (60.476bp,51.546bp)  .. (0);
+\draw [->] (2) ..controls (99.0bp,63.983bp) and (99.0bp,54.712bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (82.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (82.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (137.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (46.214bp,64.546bp) and (55.663bp,52.52bp)  .. (1);
+\draw [->] (2) ..controls (62.786bp,136.55bp) and (53.337bp,124.52bp)  .. (0);
+\draw [->] (2) ..controls (82.0bp,119.67bp) and (82.0bp,75.211bp)  .. (1);
+\draw [->] (2) ..controls (101.21bp,136.55bp) and (110.66bp,124.52bp)  .. (3);
+\draw [->] (3) ..controls (117.79bp,64.546bp) and (108.34bp,52.52bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (1);
+\draw [->] (2) ..controls (99.0bp,63.983bp) and (99.0bp,54.712bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (73.0bp,234.0bp) [draw,ellipse] {$1$};
+\node (1) at (73.0bp,162.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (82.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (73.0bp,207.98bp) and (73.0bp,198.71bp)  .. (1);
+\draw [->] (0) ..controls (51.792bp,207.85bp) and (42.171bp,193.98bp)  .. (37.0bp,180.0bp) .. controls (29.685bp,160.22bp) and (27.314bp,136.42bp)  .. (2);
+\draw [->] (0) ..controls (94.961bp,208.1bp) and (104.62bp,194.25bp)  .. (109.0bp,180.0bp) .. controls (123.28bp,133.56bp) and (106.32bp,77.11bp)  .. (3);
+\draw [->] (1) ..controls (56.798bp,136.34bp) and (49.516bp,125.26bp)  .. (2);
+\draw [->] (1) ..controls (75.619bp,119.67bp) and (78.437bp,75.211bp)  .. (3);
+\draw [->] (2) ..controls (46.214bp,64.546bp) and (55.663bp,52.52bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (1);
+\draw [->] (2) ..controls (74.25bp,64.938bp) and (60.476bp,51.546bp)  .. (1);
+\draw [->] (2) ..controls (99.0bp,63.983bp) and (99.0bp,54.712bp)  .. (3);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (54.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (54.0bp,234.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (82.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (44.486bp,208.34bp) and (40.666bp,198.43bp)  .. (2);
+\draw [->] (1) ..controls (62.171bp,191.56bp) and (70.993bp,146.82bp)  .. (3);
+\draw [->] (2) ..controls (34.858bp,119.67bp) and (43.312bp,75.211bp)  .. (0);
+\draw [->] (2) ..controls (46.214bp,136.55bp) and (55.663bp,124.52bp)  .. (3);
+\draw [->] (3) ..controls (72.087bp,64.216bp) and (68.056bp,54.14bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (82.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (109.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (137.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (46.214bp,64.546bp) and (55.663bp,52.52bp)  .. (0);
+\draw [->] (2) ..controls (101.14bp,119.67bp) and (92.688bp,75.211bp)  .. (0);
+\draw [->] (2) ..controls (118.91bp,136.22bp) and (122.94bp,126.14bp)  .. (3);
+\draw [->] (3) ..controls (117.79bp,64.546bp) and (108.34bp,52.52bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (55.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (55.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (45.087bp,64.216bp) and (41.056bp,54.14bp)  .. (0);
+\draw [->] (2) ..controls (21.954bp,205.54bp) and (19.905bp,192.06bp)  .. (19.0bp,180.0bp) .. controls (15.408bp,132.13bp) and (15.408bp,119.87bp)  .. (19.0bp,72.0bp) .. controls (19.637bp,63.518bp) and (20.838bp,54.336bp)  .. (0);
+\draw [->] (2) ..controls (36.913bp,208.22bp) and (40.944bp,198.14bp)  .. (3);
+\draw [->] (3) ..controls (55.0bp,135.98bp) and (55.0bp,126.71bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (55.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (27.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (55.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (45.087bp,64.216bp) and (41.056bp,54.14bp)  .. (1);
+\draw [->] (2) ..controls (21.954bp,205.54bp) and (19.905bp,192.06bp)  .. (19.0bp,180.0bp) .. controls (15.408bp,132.13bp) and (15.408bp,119.87bp)  .. (19.0bp,72.0bp) .. controls (19.637bp,63.518bp) and (20.838bp,54.336bp)  .. (1);
+\draw [->] (2) ..controls (36.913bp,208.22bp) and (40.944bp,198.14bp)  .. (3);
+\draw [->] (3) ..controls (55.0bp,135.98bp) and (55.0bp,126.71bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (55.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (38.0bp,234.0bp) [draw,ellipse] {$3$};
+\node (3) at (93.0bp,162.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (45.087bp,64.216bp) and (41.056bp,54.14bp)  .. (0);
+\draw [->] (2) ..controls (27.143bp,186.86bp) and (15.04bp,124.76bp)  .. (19.0bp,72.0bp) .. controls (19.637bp,63.518bp) and (20.838bp,54.336bp)  .. (0);
+\draw [->] (2) ..controls (42.948bp,191.67bp) and (48.271bp,147.21bp)  .. (1);
+\draw [->] (2) ..controls (57.214bp,208.55bp) and (66.663bp,196.52bp)  .. (3);
+\draw [->] (3) ..controls (79.582bp,136.28bp) and (73.845bp,125.71bp)  .. (1);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\caption{Caption}
+\end{figure}
+
+% new figure --------------------------------------------------------------------
+\begin{figure}[h]
+  \centering
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,90.0bp) [draw,ellipse] {$1$};
+\node (1) at (82.0bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (109.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (137.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (46.214bp,64.546bp) and (55.663bp,52.52bp)  .. (1);
+\draw [->] (2) ..controls (101.14bp,119.67bp) and (92.688bp,75.211bp)  .. (1);
+\draw [->] (2) ..controls (118.91bp,136.22bp) and (122.94bp,126.14bp)  .. (3);
+\draw [->] (3) ..controls (117.79bp,64.546bp) and (108.34bp,52.52bp)  .. (1);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (71.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (2) at (44.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,18.0bp) [draw,ellipse] {$4$};
+\node (1) at (27.0bp,18.0bp) [draw,ellipse] {$2$};
+\draw [->] (0) ..controls (61.486bp,136.34bp) and (57.666bp,126.43bp)  .. (2);
+\draw [->] (0) ..controls (79.171bp,119.56bp) and (87.993bp,74.819bp)  .. (3);
+\draw [->] (2) ..controls (37.992bp,64.261bp) and (35.7bp,54.822bp)  .. (1);
+\draw [->] (2) ..controls (63.214bp,64.546bp) and (72.663bp,52.52bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (27.0bp,63.983bp) and (27.0bp,54.712bp)  .. (0);
+\draw [->] (2) ..controls (99.0bp,63.983bp) and (99.0bp,54.712bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (2) at (73.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (73.0bp,18.0bp) [draw,ellipse] {$4$};
+\node (1) at (118.0bp,162.0bp) [draw,ellipse] {$2$};
+\draw [->] (0) ..controls (43.202bp,136.34bp) and (50.484bp,125.26bp)  .. (2);
+\draw [->] (0) ..controls (26.558bp,125.35bp) and (28.208bp,95.77bp)  .. (37.0bp,72.0bp) .. controls (40.878bp,61.515bp) and (47.26bp,51.095bp)  .. (3);
+\draw [->] (1) ..controls (102.15bp,136.34bp) and (95.027bp,125.26bp)  .. (2);
+\draw [->] (1) ..controls (118.93bp,125.37bp) and (117.65bp,95.791bp)  .. (109.0bp,72.0bp) .. controls (105.18bp,61.494bp) and (98.811bp,51.069bp)  .. (3);
+\draw [->] (2) ..controls (73.0bp,63.983bp) and (73.0bp,54.712bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (41.627bp,234.0bp) [draw,ellipse] {$1$};
+\node (1) at (32.627bp,18.0bp) [draw,ellipse] {$2$};
+\node (2) at (41.627bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (87.627bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (19.666bp,208.1bp) and (10.008bp,194.25bp)  .. (5.6271bp,180.0bp) .. controls (-8.6549bp,133.56bp) and (8.3024bp,77.11bp)  .. (1);
+\draw [->] (0) ..controls (41.627bp,207.98bp) and (41.627bp,198.71bp)  .. (2);
+\draw [->] (0) ..controls (62.835bp,207.85bp) and (72.456bp,193.98bp)  .. (77.627bp,180.0bp) .. controls (84.942bp,160.22bp) and (87.313bp,136.42bp)  .. (3);
+\draw [->] (2) ..controls (39.008bp,119.67bp) and (36.19bp,75.211bp)  .. (1);
+\draw [->] (2) ..controls (57.829bp,136.34bp) and (65.111bp,125.26bp)  .. (3);
+\draw [->] (3) ..controls (68.414bp,64.546bp) and (58.964bp,52.52bp)  .. (1);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (99.0bp,162.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (99.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (126.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (0) ..controls (74.25bp,136.94bp) and (60.476bp,123.55bp)  .. (1);
+\draw [->] (0) ..controls (99.0bp,135.98bp) and (99.0bp,126.71bp)  .. (2);
+\draw [->] (0) ..controls (120.96bp,136.1bp) and (130.62bp,122.25bp)  .. (135.0bp,108.0bp) .. controls (141.26bp,87.65bp) and (138.23bp,63.572bp)  .. (3);
+\draw [->] (2) ..controls (108.51bp,64.335bp) and (112.33bp,54.431bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (63.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (27.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (63.0bp,162.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,90.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (39.712bp,64.283bp) and (45.147bp,53.714bp)  .. (0);
+\draw [->] (2) ..controls (50.288bp,136.28bp) and (44.853bp,125.71bp)  .. (1);
+\draw [->] (2) ..controls (75.712bp,136.28bp) and (81.147bp,125.71bp)  .. (3);
+\draw [->] (3) ..controls (86.288bp,64.283bp) and (80.853bp,53.714bp)  .. (0);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (71.0bp,162.0bp) [draw,ellipse] {$2$};
+\node (2) at (44.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (1) ..controls (61.486bp,136.34bp) and (57.666bp,126.43bp)  .. (2);
+\draw [->] (1) ..controls (79.171bp,119.56bp) and (87.993bp,74.819bp)  .. (3);
+\draw [->] (2) ..controls (37.992bp,64.261bp) and (35.7bp,54.822bp)  .. (0);
+\draw [->] (2) ..controls (63.214bp,64.546bp) and (72.663bp,52.52bp)  .. (3);
+%
+\end{tikzpicture}\hfill\begin{tikzpicture}[>=latex,line join=bevel,scale=.45]
+%%
+\node (0) at (27.0bp,18.0bp) [draw,ellipse] {$1$};
+\node (1) at (135.0bp,90.0bp) [draw,ellipse] {$2$};
+\node (2) at (63.0bp,90.0bp) [draw,ellipse] {$3$};
+\node (3) at (99.0bp,18.0bp) [draw,ellipse] {$4$};
+\draw [->] (2) ..controls (50.288bp,64.283bp) and (44.853bp,53.714bp)  .. (0);
+\draw [->] (2) ..controls (75.712bp,64.283bp) and (81.147bp,53.714bp)  .. (3);
+%
+\end{tikzpicture}
+
+\vspace*{15pt}
+% new row ------------------------------------------------------
+\caption{Caption}
+\end{figure}
+
