@@ -5,15 +5,19 @@ load "lib/utils.m2"
 
 -- parameters
 n = 3;
-engine = "m2"  -- one of "maple" or "m2"
-saveFileBase = "results/base/3base"
+engine = "maple"  -- one of "maple" or "m2"
+cyclicAllowed = false        -- whether to allow cyclic graphs
+saveFileBase = "results2/desdddf"
 
 -- generate sets
 print("------------------------------------------------------------");
 print(concatenate("Nodes: ",toString(n)));
 print("Generating sets ...")
 elapsedTime (
-    dags = generateDAGs(n);
+    if cyclicAllowed then
+        graphs = generateDGs(n)
+    else
+        graphs = generateDAGs(n);
     basePartitions = generateBasePartitions(n);
     env = createEnv(n);
 )
@@ -27,22 +31,22 @@ for ptt in basePartitions do (
     -- calculate all vanishing ideals
     vanIdealDict = new MutableHashTable;
     print("Computing vanishing ideals ...");
-    elapsedTime for dag in dags do (
-        I = toString(vanishingIdeal(env,dag,ptt,engine));
-        vanIdealDict#dag = I;
+    elapsedTime for g in graphs do (
+        I = toString(vanishingIdeal(env,g,ptt,engine,-1,cyclicAllowed));
+        vanIdealDict#g = I;
         actuallyComputed = actuallyComputed + 1;
     );
 
     -- compare all vanishing ideals
     if engine == "m2" then
-        vanIdealList = for d in dags list value(vanIdealDict#d)
+        vanIdealList = for g in graphs list value(vanIdealDict#g)
     else if engine == "maple" then
-        vanIdealList = for d in dags list vanIdealDict#d;
+        vanIdealList = for g in graphs list vanIdealDict#g;
     covEqClasses = compareVanIdeals(vanIdealList,engine);
 
     -- save results
     fileName = concatenate(saveFileBase,"_",toString(ptt));
-    saveResults(fileName,env,ptt,dags,null,covEqClasses);
+    saveResults(fileName,env,ptt,graphs,null,covEqClasses);
 )
 print("------------------------------------------------------------");
 print(concatenate("Number of vanishing ideals actually computed: ",toString(actuallyComputed)));

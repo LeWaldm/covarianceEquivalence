@@ -85,7 +85,7 @@ createEnv = nodes -> (
     {nodes,R,S,Lfull,toEliminate,toKeep}
 )
 
--- generates all possible n-tuple of vals (recursion not most clean ever but okay)
+-- generates all possible n-tuple of vals
 generateAllCombinations = (vals,n) -> (
     
     result := ();
@@ -113,19 +113,16 @@ checkIsCyclic = G -> (
     #vertices(gLocal) != 0 
 )
 
--- generate all DAGs with certain number of nodes
-generateDAGs = nodes -> (
-
+-- generate all directed graphs that have no self loops
+generateDGs = nodes -> (
     -- generate powerset
     nUndirectedEdges := nodes*(nodes-1)//2;
     allCombinations := generateAllCombinations({-1,0,1},nUndirectedEdges);
     allNodes := for i from 1 to nodes list i;
 
-    -- extract dags
-    dags := {};
+    -- generate directed graphs
+    graphs := new MutableHashTable;
     for comb from 0 to #allCombinations-1 list (
-        
-        -- generate graph
         edgesCurr := {};
         for i from 1 to nodes-1 do (
             for j from i+1 to nodes do (
@@ -137,15 +134,26 @@ generateDAGs = nodes -> (
                 ););
             );
         );
-        g := digraph(allNodes,edgesCurr);
-        
-        -- only add if graph acylic
-        if not(checkIsCyclic(g)) then (
-            dags = append(dags,g);           
-        );
+        graphs#comb = digraph(allNodes,edgesCurr);      
     );
-    dags
+    return (for j from 0 to #keys(graphs)-1 list graphs#j);
 )
+
+-- generate all DAGs with certain number of nodes
+generateDAGs = nodes -> (
+
+    graphs := generateDGs(nodes);
+    dags := new MutableHashTable;
+    i := 0;
+    for g in graphs do (
+        if not(checkIsCyclic(g)) then (
+            dags#i = g; 
+            i = i +1;
+        );    
+    );
+    return (for j from 0 to i-1 list dags#j);
+)
+
 
 -- lists all partitions of set s
 allPartitions = s -> (
@@ -198,6 +206,9 @@ unifyPtt = (nodes,ptt) -> (
 -- - env: environment, output from createEnv() (with env_0 being number of nodes n)
 -- - digraph: a Digraph from the graphicalModels package with nodes 0 to n-1
 -- - variancePartiton: set of sets of nodes (from 0 to n-1) with equalVariances 
+-- - engine: determine whether to use m2 or maple for heavy computations, default "m2" (one of "m2" or "maple")
+-- - timeLimit: timeLimit for computation, -1 for no limit. Defaults to -1.
+-- - saturateIdeal: boolean wheter to saturate the ideal (if cyclic graphs are allowed). Defaults to True.
 -- output: with m2 elimination, returns ideal. With maple elimination returns  
 --   ideal as maple string. Use idealMplToM2 to get a m2 ideal. If timeLimit reached
 --   before calculation terminates, "null" is returned.
@@ -205,11 +216,11 @@ unifyPtt = (nodes,ptt) -> (
 --   vanishingIdeal(env,digraph)
 --   vanishingIdeal(env,digraph,variancePartition)
 --   vanishingIdeal(env,digraph,variancePartition,methodElim)
---   vanishingIdeal1(env,digraph,variancePartition,"maple",timeLimit)
-vanishingIdeal = method();
-vanishingIdeal1 = args -> (
+--   vanishingIdeal1(env,digraph,variancePartition,engine,timeLimit)
+--   vanishingIdeal1(env,digraph,variancePartition,elimengineEngine,timeLimit, saturateIdeal)
+vanishingIdeal = args -> (
 
-    -- assign local environment
+    -- parse inputs
     n := args_0_0;
     R := args_0_1;
     S := args_0_2;
@@ -217,14 +228,31 @@ vanishingIdeal1 = args -> (
     toEliminate := args_0_4;
     toKeep := args_0_5;
     g := args_1;
-    equalVarGroups := args_2;
-    methodElim := args_3;
-    timeLimit=args_4;
+    equalVarGroups := null;
+    methodElim := null;
+    timeLimit := null;
+    saturateIdeal := null;
+    if #args >= 3 then
+        equalVarGroups = args_2
+    else 
+        equalVarGroups = {};
+    if #args >= 4 then
+        methodElim = args_3
+    else
+        methodElim = "m2";
+    if #args >= 5 then
+        timeLimit = args_4
+    else
+        timeLimit = -1;
+    if #args >= 6 then 
+        saturateIdeal = args_5
+    else 
+        saturateIdeal = false;
     if methodElim == "m2" and timeLimit > 0 then 
         print("Warning: time limit only executed for elimination with maple.");
-    L := hadamard(Lfull,adjacencyMatrix(reindexBy(g,"sort")));
 
-    -- calculate Omega
+    -- calculate matrices
+    L := hadamard(Lfull,adjacencyMatrix(reindexBy(g,"sort")));
     O := transpose(id_(R^n) - L) * S * (id_(R^n) - L);
     
     -- compute vanishing polynomials from assumption: no bidirected edges
@@ -252,19 +280,23 @@ vanishingIdeal1 = args -> (
     
     -- calculate the vanishing ideal as elimination ideal by eliminating all Lambda entries
     elimIdeal := null;
-    if methodElim == "m2" then
-        elimIdeal = eliminate(toEliminate,I)
-    else if methodElim == "maple" then 
-        elimIdeal = eliminateMaple(I,toKeep,timeLimit)
+    if methodElim == "m2" then (
+        if saturateIdeal then
+            I = saturate(I, det(id_(R^n) - L));
+        elimIdeal = eliminate(toEliminate,I);
+    ) else if methodElim == "maple" then 
+        if saturateIdeal then
+            elimIdeal = saturateElimMpl(I,det(id_(R^n) - L),toKeep,timeLimit)
+        else 
+            elimIdeal = eliminateMaple(I,toKeep,timeLimit)
     else 
-        error("Illegal value for elimMethod.");
+        error("Illegal value for engine.");
     return elimIdeal;
 )
-vanishingIdeal (List,Digraph) := (e,d) -> vanishingIdeal1(e,d,{},"m2",-1);
-vanishingIdeal (List,Digraph,List) := (e,d,l) -> vanishingIdeal1(e,d,l,"m2",-1);
-vanishingIdeal (List,Digraph,List,String) := (e,d,l,m) -> vanishingIdeal1(e,d,l,m,-1);
---vanishingIdeal (List,Digraph,List,String,numeric) := (e,d,l,m,t) -> vanishingIdeal1(e,d,l,m,t);
-
+-- vanishingIdeal (args) := args -> vanishingIdeal(args);
+-- vanishingIdeal (List,Digraph) := (e,d) -> vanishingIdeal1(e,d,{},"m2",-1,false);
+-- vanishingIdeal (List,Digraph,List) := (e,d,l) -> vanishingIdeal1(e,d,l,"m2",-1,false);
+-- vanishingIdeal (List,Digraph,List,String) := (e,d,l,m) -> vanishingIdeal1(e,d,l,m,-1,false);
 
 
 -- takes string replaces '_' by '__'
@@ -380,8 +412,41 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
     --return elimIdeal;
     return results_0;
 )
--- eliminateMaple(Ideal,List) := (i,v) -> eliminateMaple1(i,v,-1)
--- eliminateMaple(Ideal,List,ZZ) := (i,v,t) -> eliminateMaple1(i,v,t)
+
+-- saturates and the eliminates ideal in maple
+saturateElimMpl = (I,polyn,toKeep,timeLimit) -> (
+    fileMplCode := temporaryFileName() | ".mpl";
+    fileMplOut := temporaryFileName();
+
+    -- fill maple file and execute (TODO: put template as .mpl file into lib/
+    --     that is filled as for compareFromDbm function)
+    fileMplCode << "with(PolynomialIdeals):";
+    filestr := concatenate("\"",toString(fileMplOut),"\"");
+    fileMplCode << "fileNameWrite := " << filestr << ":";
+    fileMplCode << "J := " << idealM2ToMpl(I) << ":";
+    fileMplCode << "vars := " << addUnderline(toString(toKeep)) <<":";
+    fileMplCode << "J = saturate(J," << addUnderline(toString(polyn)) << "):";
+    fileMplCode << "print(\"saturated\"):"; 
+    fileMplCode << "start:=time():";
+    if timeLimit > 0 then 
+        fileMplCode << "try E:=timelimit("<< toString(timeLimit) << ",EliminationIdeal(J,vars)): catch \"time expired\": E:=\"null\" end try:"
+    else 
+        fileMplCode << "E:=EliminationIdeal(J,vars):";
+    fileMplCode << "t:=time()-start:";
+    fileMplCode << "print(\"eliminated\"):";
+    fileMplCode << "fileOut:=fopen(fileNameWrite,'WRITE','TEXT'):";
+    fileMplCode << "writeline(fileOut,convert(E,string)):";
+    fileMplCode << "writeline(fileOut,convert(t,string)):"<<endl;
+    fileMplCode << close;
+    run(concatenate("maple ",toString(fileMplCode)," -q"));
+    
+    -- retrieve result
+    fileMplOut;
+    results := lines(get(fileMplOut));
+    removeFile(fileMplCode);
+    removeFile(fileMplOut);
+    return results_0;
+)
 
 
 -- nice progress bar for computations
@@ -419,11 +484,11 @@ compareVanIdeals = (vanIdeals,compMethod) -> (
         );
 
         print("Computing groups with equal ideals...");
-        allNodes := for i from 0 to #dags-1 list i;
+        allNodes := for i from 0 to #vanIdeals-1 list i;
         groups = elapsedTime connectedComponents(graph(allNodes, equivResults));
         return groups;
 
-    ) else if compMethod == "maple" then (
+    ) else if compMethod == "maple" then elapsedTime (
 
         -- print all ideals to a file with one ideal per line and call 
         --    maple script that compares all the ideals and calculates the
@@ -456,122 +521,3 @@ compareVanIdeals = (vanIdeals,compMethod) -> (
     ) else 
         error("Unknown compare method.");
 )
-
-
-
-
--- EXPERIMENTAL!
--- computes all vanishingIdeals of list of dags in environemnt env 
--- with the variance partition in eqVarPart with a timeLimit, i.e.
--- if a computations takes longer than timeLimit, it will be skipped.
--- This function also uses multi threading to compute ideals in parallel.
--- Precisely, allowableThreads-1 threads will be used.
--- In this case, vanIdeal output will be null and the computation time -1.
--- output: (ideals,computationTimes)
--- ways to call this function:
---     compAllVanIdTimeLim(env,dags,eqVarPart,timeLimit)
---     compAllVanIdTimeLim(env,dags,eqVarPart,timeLimit,elimMethod)
-compAllVanIdTimeLim = args -> (
-
-    print("Disclaimer: Threading still doesn't really work here.");
-
-    -- handle input
-    if #args!=4 and #args!=5 then
-        error("Input arguments have to be 4 or 5.");
-    env := args_0;
-    dags := args_1;
-    eqVarPart := args_2;
-    timeLimit := args_3;
-    elimMethod := null;
-    if #args == 4 then
-        elimMethod = "m2"
-    else 
-        elimMethod = args_4;
-
-    if allowableThreads < 2 then
-        error("Need at least 2 allowable Threads.");
-
-    ideals := new MutableHashTable;
-    compTime := new MutableHashTable;
-    tasks := new MutableHashTable;
-    taskIndices := new MutableHashTable;
-    nTasks := allowableThreads-1;
-    currDag := 0;
-    tasksFinished := 0;
-    taskMonitored := new MutableHashTable;
-    taskStarts := new MutableHashTable;
-    --print(instance(vanishingIdeal1,FunctionClosure));
-    vIdeal := (e,d,v) -> elapsedTiming(vanishingIdeal(e,d,v,elimMethod));
-
-    -- fill tasks
-    for t from 1 to nTasks do (
-        tasks#t = schedule(vIdeal,(env,dags#currDag,eqVarPart));
-        taskIndices#t = currDag;
-        taskStarts#t = currentTime();
-        currDag = currDag + 1; 
-        taskMonitored#t = true;
-    );
-
-    -- main scheduler loop
-    result:=0;
-    vanIdeal:=0;
-    cTime:=0;
-    while tasksFinished < #dags do (
-        for t from 1 to nTasks do (
-            
-            --print("loop begin");
-            if not taskMonitored#t then (
-                continue;
-            ) else if isReady tasks#t then (
-                -- add results to lists
-                --print(concatenate("retrieveResults: ",toString(taskIndices#t)));
-                result := taskResult(tasks#t);
-                if instance(result,Nothing) then (
-                    vanIdeal = null;
-                    cTime = -2;
-                    print("---------------------------------------------------");
-                ) else (
-                    result = toList(result);
-                    vanIdeal = (result)_1;
-                    cTime = (result)_0;
-                );
-
-                ideals#(taskIndices#t) = vanIdeal;
-                compTime#(taskIndices#t) = cTime;
-
-                -- update current task and give user feedback
-                tasksFinished = tasksFinished + 1;
-                print(concatenate(toString(tasksFinished),"/",toString(#dags)));
-
-                -- schedule new task if still dags to compute
-                if currDag >= #dags then (
-                    taskMonitored#t = false;
-                ) else (        
-                    tasks#t = schedule(vIdeal,(env,dags#currDag,eqVarPart));
-                    taskIndices#t = currDag;
-                    taskStarts#t = currentTime();
-                    currDag = currDag + 1; 
-                    --print(concatenate("start: ",toString(taskIndices#t)));
-                );
-            ) else if currentTime() - taskStarts#t > timeLimit then (
-                --print(concatenate("terminate: ",toString(taskIndices#t)));
-                cancelTask tasks#t;
-                taskStarts#t = currentTime();
-                tasks#t = schedule(()->(-1,null,));
-            );
-        );
-        
-        nanosleep 10000000;
-    );
-    print("donecompall");
-
-    -- sort resulting lists such that they ressemble the dag input list
-    listIdeals = {};
-    listCompTime = {};
-    for i from 0 to #dags-1 do (
-        listIdeals = append(listIdeals,ideals#i);
-        listCompTime = append(listCompTime,compTime#i);
-    );
-
-    return (listIdeals,listCompTime);
-);
