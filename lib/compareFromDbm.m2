@@ -22,9 +22,9 @@ load "lib/loadAndSaveResults.m2";
 --      for the according nodes at the same list position.
 
 -- parameters
-allNodes = {3};
-dbTopSortVanIdealsMpl = "results/test/topOrdVanIdeals3.dbm";
-saveFiles = {"results/test/3"};
+allNodes = {4};
+dbTopSortVanIdealsMpl = "results/test2/topOrdVanIdeals4.dbm";
+saveFiles = {"results/test2/4"};
 varPart3 = {
     {},
     {{1,2}},

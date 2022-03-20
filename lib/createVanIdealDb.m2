@@ -20,7 +20,7 @@ load "lib/utils.m2";
 
 
 -- parameters
-dbFile = "results/test/topOrdVanIdeals4.dbm";  
+dbFile = "results2/test4.dbm";  
 allFiles = {"topSortedDags/ts_dags4"}; -- 
 allNodes = {4};     -- list of all nodes to be computed
 elimMethod = "maple";
