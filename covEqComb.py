@@ -4,7 +4,7 @@ import networkx as nx
 from itertools import combinations
 
 # parameters
-nodes = [5]
+nodes = [4]
 
 
 # helping functions

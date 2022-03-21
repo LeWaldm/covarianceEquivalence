@@ -5,19 +5,28 @@ load "lib/utils.m2"
 
 -- parameters
 n = 3;
-engine = "maple"  -- one of "maple" or "m2"
-cyclicAllowed = false        -- whether to allow cyclic graphs
-saveFileBase = "results2/desdddf"
+engine = "maple"                -- one of "maple" or "m2"
+graphProps = "directed"         -- one of "dags","simpleDirected","directed"
+saveFileBase = "results2/4noddsfses" -- graphProps and variance partition added automatically
 
 -- generate sets
 print("------------------------------------------------------------");
 print(concatenate("Nodes: ",toString(n)));
-print("Generating sets ...")
+print("Generating graphs ...")
 elapsedTime (
-    if cyclicAllowed then
-        graphs = generateDGs(n)
-    else
-        graphs = generateDAGs(n);
+    cyclicAllowed := false;
+    graphs := null;
+    if graphProps == "dags" then
+        graphs = generateDAGs(n)
+    else if graphProps == "simpleDirected" then (
+        graphs = generateSimpleDGs(n);
+        cyclicAllowed = true;
+    ) else if graphProps == "directed" then (
+        graphs = generateDGs(n);
+        cyclicAllowed = true;
+    ) else 
+        error("Illegal parameter in 'graphProps'");
+    saveFileBase = concatenate(saveFileBase, "_", graphProps);
     basePartitions = generateBasePartitions(n);
     env = createEnv(n);
 )
@@ -31,7 +40,10 @@ for ptt in basePartitions do (
     -- calculate all vanishing ideals
     vanIdealDict = new MutableHashTable;
     print("Computing vanishing ideals ...");
+    counter = 0;
     elapsedTime for g in graphs do (
+        progressBar(counter,#graphs);
+        counter = counter +1;
         I = toString(vanishingIdeal(env,g,ptt,engine,-1,cyclicAllowed));
         vanIdealDict#g = I;
         actuallyComputed = actuallyComputed + 1;

@@ -113,14 +113,43 @@ checkIsCyclic = G -> (
     #vertices(gLocal) != 0 
 )
 
--- generate all directed graphs that have no self loops
+-- generate all directed graphs without self loops
 generateDGs = nodes -> (
+    -- generate powerset
+    nUndirectedEdges := nodes*(nodes-1)//2;
+    allCombinations := generateAllCombinations({-1,0,1,2},nUndirectedEdges);
+    allNodes := for i from 1 to nodes list i;
+
+    -- generate directed graphs
+    graphs := new MutableHashTable;
+    for comb from 0 to #allCombinations-1 list (
+        edgesCurr := {};
+        for i from 1 to nodes-1 do (
+            for j from i+1 to nodes do (
+                ind = (i-1)*(nodes-1) - (i*(i-1)//2) + j-2; -- double checked  
+                if (allCombinations_comb)_ind == 1 then 
+                    edgesCurr = append(edgesCurr,{i,j})
+                else if (allCombinations_comb)_ind == -1 then 
+                    edgesCurr = append(edgesCurr,{j,i})
+                else if (allCombinations_comb)_ind == 2 then (
+                    edgesCurr = append(edgesCurr,{i,j});
+                    edgesCurr = append(edgesCurr,{j,i});
+                );      
+            );
+        );
+        graphs#comb = digraph(allNodes,edgesCurr);      
+    );
+    return (for j from 0 to #keys(graphs)-1 list graphs#j);
+)
+
+-- generate all simple directed graphs without self loops
+generateSimpleDGs = nodes -> (
     -- generate powerset
     nUndirectedEdges := nodes*(nodes-1)//2;
     allCombinations := generateAllCombinations({-1,0,1},nUndirectedEdges);
     allNodes := for i from 1 to nodes list i;
 
-    -- generate directed graphs
+    -- generate simple directed graphs
     graphs := new MutableHashTable;
     for comb from 0 to #allCombinations-1 list (
         edgesCurr := {};
@@ -142,7 +171,7 @@ generateDGs = nodes -> (
 -- generate all DAGs with certain number of nodes
 generateDAGs = nodes -> (
 
-    graphs := generateDGs(nodes);
+    graphs := generateSimpleDGs(nodes);
     dags := new MutableHashTable;
     i := 0;
     for g in graphs do (
@@ -153,6 +182,8 @@ generateDAGs = nodes -> (
     );
     return (for j from 0 to i-1 list dags#j);
 )
+
+
 
 
 -- lists all partitions of set s
@@ -426,14 +457,14 @@ saturateElimMpl = (I,polyn,toKeep,timeLimit) -> (
     fileMplCode << "J := " << idealM2ToMpl(I) << ":";
     fileMplCode << "vars := " << addUnderline(toString(toKeep)) <<":";
     fileMplCode << "J = saturate(J," << addUnderline(toString(polyn)) << "):";
-    fileMplCode << "print(\"saturated\"):"; 
+    -- fileMplCode << "print(\"saturated\"):"; 
     fileMplCode << "start:=time():";
     if timeLimit > 0 then 
         fileMplCode << "try E:=timelimit("<< toString(timeLimit) << ",EliminationIdeal(J,vars)): catch \"time expired\": E:=\"null\" end try:"
     else 
         fileMplCode << "E:=EliminationIdeal(J,vars):";
     fileMplCode << "t:=time()-start:";
-    fileMplCode << "print(\"eliminated\"):";
+    -- fileMplCode << "print(\"eliminated\"):";
     fileMplCode << "fileOut:=fopen(fileNameWrite,'WRITE','TEXT'):";
     fileMplCode << "writeline(fileOut,convert(E,string)):";
     fileMplCode << "writeline(fileOut,convert(t,string)):"<<endl;
@@ -451,8 +482,11 @@ saturateElimMpl = (I,polyn,toKeep,timeLimit) -> (
 
 -- nice progress bar for computations
 -- takes value from 0 to 1 indicating the progress
-progressBar = prc -> (
-    run(concatenate("printf '",toString(numeric(prc)*100)," percent \r'"));
+progressBar = (curr,goal) -> (
+    prc = round(numeric(curr/goal)*100);
+    cmmd = concatenate("printf '",toString(curr),"/",toString(goal), " (",toString(prc)," percent)\r'");
+    --print(cmmd);
+    run(cmmd);
 )
 
 

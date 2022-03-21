@@ -3,26 +3,36 @@ load "lib/loadAndSaveResults.m2"
 
 -- parameters
 n = 4;
-engine = "maple"  -- one of "maple" or "m2"
-cyclicAllowed = false        -- whether to allow cyclic graphs
-saveFileBase = "results2/4acyclicNEW"
+engine = "maple"                -- one of "maple" or "m2"
+graphProps = "directed"         -- one of "dags","simpleDirected","directed"
+saveFileBase = "results/4nodes" -- graphProps and variance partition added automatically
 
 -- generate sets
 print("------------------------------------------------------------");
 print(concatenate("Nodes: ",toString(n)));
-print("Generating sets ...");
+print("Generating graphs ...");
 elapsedTime (
-    if cyclicAllowed then
-        graphs = generateDGs(n)
-    else
-        graphs = generateDAGs(n);
+    cyclicAllowed := false;
+    graphs := null;
+    if graphProps == "dags" then
+        graphs = generateDAGs(n)
+    else if graphProps == "simpleDirected" then (
+        graphs = generateSimpleDGs(n);
+        cyclicAllowed = true;
+    ) else if graphProps == "directed" then (
+        graphs = generateDGs(n);
+        cyclicAllowed = true;
+    ) else 
+        error("Illegal parameter in 'graphProps'");
     permus = permutations((for i from 1 to n list i));
     allPermusInt := apply(
         permus, p -> hashTable(for i from 0 to n-1 list ((i+1),(p_i))));
     allPermusStr := apply(
         permus, p -> hashTable(for i from 0 to n-1 list (toString(i+1),toString(p_i))));
     basePartitions = generateBasePartitions(n);
+    basePartitions = {{{1},{2},{3},{4}},{{1,2},{3},{4}}};
     env = createEnv(n);
+    saveFileBase = concatenate(saveFileBase, "_", graphProps);
 )
 
 -- internal functions
@@ -66,26 +76,32 @@ for ptt in basePartitions do (
     vanIdealDict = new MutableHashTable;
     alreadyComputed = new MutableHashTable;
     print("Computing vanishing ideals ...");
+    computedVanishingIdeal = 0;
     elapsedTime for graph in graphs do (
+        progressBar(computedVanishingIdeal,#graphs);
 
         -- compute vanishing ideal
         if alreadyComputed#?graph then
             continue;
         I = toString(vanishingIdeal(env,graph,ptt,engine,-1,cyclicAllowed));
         vanIdealDict#graph = I;
-        actuallyComputed = actuallyComputed + 1;
+        alreadyComputed#graph = 1;
 
         -- permute vanishing ideal
         for p from 0 to #allPermusInt-1 do (
             permuPtt = permutePtt(ptt,allPermusInt_p);
             if permuPtt == ptt then (
                 permuGraph = permuteGraph(graph,allPermusInt_p);
-                permuIdeal = permuteIdeal(I,allPermusStr_p);
-                vanIdealDict#permuGraph = permuIdeal;
-                alreadyComputed#permuGraph = 1;
+                if not alreadyComputed#?permuGraph then(
+                    permuIdeal = permuteIdeal(I,allPermusStr_p);
+                    vanIdealDict#permuGraph = permuIdeal;
+                    alreadyComputed#permuGraph = 1;
+                    computedVanishingIdeal = computedVanishingIdeal+1;
+                );
             );
         );
-        alreadyComputed#graph = 1;
+        actuallyComputed = actuallyComputed + 1;
+        computedVanishingIdeal = computedVanishingIdeal + 1;
     );
 
     -- compare all vanishing ideals
