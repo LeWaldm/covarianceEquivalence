@@ -4,7 +4,7 @@ load "lib/loadAndSaveResults.m2"
 -- parameters
 n = 4;
 engine = "maple"                -- one of "maple" or "m2"
-graphProps = "directed"         -- one of "dags","simpleDirected","directed"
+graphProps = "digraphs"         -- one of "dags","simpleDigraphs","digraphs"
 saveFileBase = "results/4nodes" -- graphProps and variance partition added automatically
 
 -- generate sets
@@ -16,10 +16,10 @@ elapsedTime (
     graphs := null;
     if graphProps == "dags" then
         graphs = generateDAGs(n)
-    else if graphProps == "simpleDirected" then (
+    else if graphProps == "simpleDigraphs" then (
         graphs = generateSimpleDGs(n);
         cyclicAllowed = true;
-    ) else if graphProps == "directed" then (
+    ) else if graphProps == "digraphs" then (
         graphs = generateDGs(n);
         cyclicAllowed = true;
     ) else 
