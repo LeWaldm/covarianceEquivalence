@@ -3,8 +3,19 @@ load "lib/utils.m2"
 -- compute and compare ALL vanishing Ideals of some given 
 -- variance partitions. This is inefficient and just included for
 -- completeness purposes. Use lib/improvedVersion.m2 instead.
+-- parameters:
+--  - n: number of nodes
+--  - engine: determines the engine that is used for performing heavy
+--      computations (i.e. elimination ideal, saturation, comparing ideals).
+--      Has to be "maple" or "m2". 
+--  - graphProps: set of graphs to compute the covariance equivalence
+--      classes of. Set to "dags" for directec acyclic graphs, "digraphs" for
+--      all digraphs without loops, and "simpleDigraphs" for digraphs without
+--      loops and not both edges v->w, v<-w for any nodes v,w
+--  - saveFileBase: path to create the result file. The graphProps are added
+--      with underline. A new file for each partition is created. The partition
+--      is also added with underline.
 
--- parameters
 n = 3;
 engine = "maple"                -- one of "maple" or "m2"
 graphProps = "digraphs"         -- one of "dags","simpleDigraphs","digraphs"

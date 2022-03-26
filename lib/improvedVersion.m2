@@ -5,12 +5,23 @@ load "lib/loadAndSaveResults.m2"
 -- classes of all graphs with n nodes. The engine that does the 
 -- heavy computations can be set as well as the specific graphs to compute.
 -- This is a more efficient version of lib/baseVersion.
+-- parameters:
+--  - n: number of nodes
+--  - engine: determines the engine that is used for performing heavy
+--      computations (i.e. elimination ideal, saturation, comparing ideals).
+--      Has to be "maple" or "m2". 
+--  - graphProps: set of graphs to compute the covariance equivalence
+--      classes of. Set to "dags" for directec acyclic graphs, "digraphs" for
+--      all digraphs without loops, and "simpleDigraphs" for digraphs without
+--      loops and not both edges v->w, v<-w for any nodes v,w
+--  - saveFileBase: path to create the result file. The graphProps are added
+--      with underline. A new file for each partition is created. The partition
+--      is also added with underline.
 
--- parameters
 n = 4;
-engine = "maple"                    -- one of "maple" or "m2"
-graphProps = "simpleDigraphs"       -- one of "dags","simpleDigraphs","digraphs"
-saveFileBase = "results2/crashtest" -- graphProps and variance partition added automatically
+engine = "maple"
+graphProps = "simpleDigraphs"
+saveFileBase = "results/4nodes"
 
 -- generate sets
 print("------------------------------------------------------------");
