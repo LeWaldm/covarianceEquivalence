@@ -2,7 +2,8 @@ load "lib/utils.m2"
 load "lib/loadAndSaveResults.m2"
 needsPackage "GraphicalModels"
 
--- functions
+-- This script contains functions to explore the results.
+
 -- print number of group members per group
 printGroupCounts = groups -> (
     groupCounts := new MutableHashTable;

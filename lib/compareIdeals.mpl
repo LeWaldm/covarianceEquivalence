@@ -1,6 +1,8 @@
 fileNameIn := error("Needs to be filled before executing."):
 fileNameOut := error("Needs to be filled before executing."):
 
+# DON'T CHANGE THIS SCRIPT. IT IS CALLED FROM lib/utils.m2/compareVanIdeals
+
 # first line of fileIn should be number of ideals in file 
 # (is the same as number of remaining lines in the file)
 fileIn := fopen(fileNameIn,READ,'TEXT'):
@@ -12,9 +14,6 @@ with(GraphTheory):
 nIdeals := parse(readline(fileIn)):
 ideals := Array(1..nIdeals):
 for i from 1 to nIdeals do
-    #ideals(i) := convert(readline(fileIn),PolynomialIdeals:-PolynomialIdeal):
-    # tmp:=parse(readline(fileIn)):
-    # ideals(i):=parse(convert(tmp,string));
     ideals(i) := parse(readline(fileIn));
 end do:
 fclose(fileIn):

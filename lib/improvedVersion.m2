@@ -1,6 +1,11 @@
 load "lib/utils.m2"
 load "lib/loadAndSaveResults.m2"
 
+-- Main computational script. Computes and saves the covariance equivalence
+-- classes of all graphs with n nodes. The engine that does the 
+-- heavy computations can be set as well as the specific graphs to compute.
+-- This is a more efficient version of lib/baseVersion.
+
 -- parameters
 n = 4;
 engine = "maple"                    -- one of "maple" or "m2"

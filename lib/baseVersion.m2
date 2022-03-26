@@ -1,7 +1,8 @@
--- compute and compare ALL vanishing Ideals of some given 
--- variance partitions.
-
 load "lib/utils.m2"
+
+-- compute and compare ALL vanishing Ideals of some given 
+-- variance partitions. This is inefficient and just included for
+-- completeness purposes. Use lib/improvedVersion.m2 instead.
 
 -- parameters
 n = 3;

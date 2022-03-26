@@ -1,7 +1,11 @@
--- requires package 
 needsPackage "GraphicalModels"
 needsPackage "DeterminantalRepresentations"
 needsPackage "SchurRings"
+
+-- This script contains utility functions of the main computation script.
+-- The functions are outsourced to here such that the comoputation scripts, i.e.
+-- lib/baseVersion.m2 and lib/improvedVersion.m2 are nicely readable.
+
 
 -- generate environment with Ring,L,S matrices for arbitrary number of nodes 
 createEnv = nodes -> (

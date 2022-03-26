@@ -1,4 +1,7 @@
 load "lib/utils.m2";
+
+-- This script contains functions for loading and saving results
+
 -- saves the results from a calculation into a file. 
 -- If file already exists, function tests if the same env and dags in file.
 -- If so, adds the variance partition and groups to the file. Else, error.
@@ -147,4 +150,3 @@ loadResults = (fileName) -> (
     ideals = loadPPrintList(fileLines,"allVanishingIdeals");
     (env,allVariancePartitions,allIdenticalVanishingIdealGroups,dags,ideals)
 );
-
