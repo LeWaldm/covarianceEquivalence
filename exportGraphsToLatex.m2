@@ -1,6 +1,16 @@
 load "lib/loadAndSaveResults.m2"
 
-fileName = "results/final/permu4_{{1, 2}, {3}, {4}}";
+-- script to export the graphs from ptt {{1, 2}, {3}, {4}} to
+-- a bib text string saved in an output file
+--      fileName: name of input file, as programmed only makes sense   
+--          with current one
+--      fileOut: filename that the string is saved in 
+--      scale: float, indicates the scale parameter in tikZ pictures in latex
+--      nrows: number of rows to print the graphs in
+--      ncols: number of columns to print the graphs in. If nrows and ncols full,
+--          a new latex figure will be created.
+
+fileName = "results/4nodes_dags_{{1, 2}, {3}, {4}}";
 fileOut = "bibTextStringGraphs";
 scale = 0.45;
 nrows = 4;

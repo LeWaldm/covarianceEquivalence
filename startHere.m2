@@ -1,45 +1,53 @@
-load "lib/utils.m2";
-load "lib/loadAndSaveResults.m2";
-load "lib/exploreResults.m2";
+-- SCRIPT TO EXPLORE THE RESULTS
 
-----------------------------
--- SMALL SCALE USAGE
----------------------------
+-- Best load this script, the 'lib/exploreResults.m2" and
+-- the result files from 'results/...' you are interested in into
+-- https://www.unimelb-macaulay2.cloud.edu.au/#editor
+-- There, printing graphs will display their tikZ picture which is
+-- very  nice for exploration. Note that this script does assume
+-- that all files in current folder, no results/ or lib/ (thats the case 
+-- in the online version)
+load "exploreResults.m2" 
 
--- setup environment
-env = createEnv(4)
-
--- compute single graph
-G = digraph({1,2,3,4},{{1,2},{3,4},{3,2}})
-I1 = vanishingIdeal(env,G)
-I2 = vanishingIdeal(env,G,{{1,2}})
-I1 == I2
-
--- compute large scale
-env = createEnv(3);
-dags = generateDAGs(3);
-#dags
-(groups,ideals) =  compVanishingIdealAll(env,dags,{});
-
--- save computation
-saveResults("test3",env,eqVarPart,dags,ideals,groups);
-
--- load results
-(env,allVarPart,allGroups,dags,ideals) = loadResults("test3");
+-- loading data
+fileNames := {
+    "3nodes_dags_{{1}, {2}, {3}}",
+    "3nodes_digraphs_{{1}, {2}, {3}}",
+    "4nodes_dags_{{1, 2}, {3}, {4}}",
+    "4nodes_digraphs_{{1}, {2}, {3}, {4}}"
+}
+fileName := fileNames_0;
+(env,ptts,allGroups,graphs,allIdeals) = loadResults(fileName);
+ptt = ptts_0;
 groups = allGroups_0;
 
--- look at computations
+
+-------------------------
+-- exploration functions
+-------------------------
+-- print the group distribution
 printGroupCounts(groups);
-printGroups(dags,groups);
-printAllGroups(dags,groups);
-showNGroupsWithMMembers(dags,groups,3,3);
-showAlgEqGroupOf(dags,groups,digraph({{1,2},{2,3}}));
+
+-- show 2 randomly selected cov.equivalence groups with 3 members
+showNGroupsWithMMembers(graphs,groups,2,3);
+
+-- show the covariance equivalence groups of the specific graph G
+G = digraph({{1,2},{2,3}});
+showCovEqGroupOf(graphs,groups,G);
 
 
-----------------------------
--- LARGE SCALE USAGE
----------------------------
--- adjust parameters in scripts lib/createVanIdealDb.m2 and 
--- lib/compareFromDbm.m2 and then execute them
-load "lib/createVanIdealDb.m2"
-load "lib/compareFromDbm.m2"
+-- check whether a specific conjecture holds on the computed graphs and groups.
+--   The conjecture is a function that takes a partition and 
+--   two graphs and outputs true or false. The conjectureChecker then checks
+--   if the inputted conjecture is sufficient and/or necessary for the computed equivalence groups.
+
+-- check whether the classes can be explained by identical edges
+conj = (ptt,g1,g2) -> (
+    e1 = set(edges(g1));
+    e2 = set(edges(g2));
+    return isSubset(e1,e2) and isSubset(e2,e1);
+)
+conjectureChecker(graphs,groups,ptt,conj)
+
+-- check the conjecture from the thesis (implemented in lib/exploreResults.m2)
+conjectureChecker(graphs,groups,ptt,conjectureThesis)

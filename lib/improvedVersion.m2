@@ -4,8 +4,8 @@ load "lib/loadAndSaveResults.m2"
 -- parameters
 n = 4;
 engine = "maple"                -- one of "maple" or "m2"
-graphProps = "digraphs"         -- one of "dags","simpleDigraphs","digraphs"
-saveFileBase = "results/4nodes" -- graphProps and variance partition added automatically
+graphProps = "simpleDigraphs"         -- one of "dags","simpleDigraphs","digraphs"
+saveFileBase = "results2/crashtest" -- graphProps and variance partition added automatically
 
 -- generate sets
 print("------------------------------------------------------------");
@@ -24,16 +24,19 @@ elapsedTime (
         cyclicAllowed = true;
     ) else 
         error("Illegal parameter in 'graphProps'");
+
     permus = permutations((for i from 1 to n list i));
     allPermusInt := apply(
         permus, p -> hashTable(for i from 0 to n-1 list ((i+1),(p_i))));
     allPermusStr := apply(
         permus, p -> hashTable(for i from 0 to n-1 list (toString(i+1),toString(p_i))));
     basePartitions = generateBasePartitions(n);
-    basePartitions = {{{1},{2},{3},{4}},{{1,2},{3},{4}}};
+    print(basePartitions);
+    basePartitions = {{{1,2},{3},{4}}};
     env = createEnv(n);
     saveFileBase = concatenate(saveFileBase, "_", graphProps);
 )
+
 
 -- internal functions
 permutePtt := (ptt,permu) -> (
@@ -78,11 +81,12 @@ for ptt in basePartitions do (
     print("Computing vanishing ideals ...");
     computedVanishingIdeal = 0;
     elapsedTime for graph in graphs do (
-        progressBar(computedVanishingIdeal,#graphs);
+        --progressBar(computedVanishingIdeal,#graphs);
 
         -- compute vanishing ideal
         if alreadyComputed#?graph then
             continue;
+        print(graph);
         I = toString(vanishingIdeal(env,graph,ptt,engine,-1,cyclicAllowed));
         vanIdealDict#graph = I;
         alreadyComputed#graph = 1;

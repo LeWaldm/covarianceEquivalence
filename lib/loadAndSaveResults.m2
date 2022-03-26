@@ -30,8 +30,8 @@ saveResults = (fileName,env,variancePartition,dags,ideals,groups) -> (
         pprintListToFile(tmp2,dagsFile,"dags");
         tmp2 << close;             
         if not lines(get(tmp)) == lines(get(tmp2)) then
-            error("Environment or DAGs different.");
-        print("Environment and DAGs identical.");
+            error("Environment or graphs different (graphs are compared exactly in the order they are in the file).");
+        print("Environment and graphs identical.");
 
         -- check if variance partition already in file
         fileAllVariancePartitions = loadPPrintList(fileLines,"allVariancePartitions");

@@ -88,18 +88,22 @@ createEnv = nodes -> (
 -- generates all possible n-tuple of vals
 generateAllCombinations = (vals,n) -> (
     
-    result := ();
+    result := new MutableHashTable;
+    resultCounter = 0;
     nVals := length(vals);
     nComb := nVals^n;       
     for j from 0 to nComb-1 do (
-        l := {};
+        l := new MutableHashTable;
+        lCounter = 0;
         for i from 0 to n-1 do  (
             ind := floor(j / nVals^(n-1-i)) % nVals;           
-            l = append(l,vals_ind);
+            l#lCounter = vals_ind;
+            lCounter = lCounter + 1;
         );
-        result = append(result,l);
+        result#resultCounter = for i from 0 to lCounter-1 list l#i;
+        resultCounter = resultCounter + 1;
     );
-    result
+    return for i from 0 to resultCounter-1 list result#i;
 )
 
 -- naive method to check if digraph is cyclic
@@ -311,6 +315,7 @@ vanishingIdeal = args -> (
     
     -- calculate the vanishing ideal as elimination ideal by eliminating all Lambda entries
     elimIdeal := null;
+    print(saturateIdeal);
     if methodElim == "m2" then (
         if saturateIdeal then
             I = saturate(I, det(id_(R^n) - L));
@@ -436,7 +441,7 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
     results := lines(get(fileMplOut));
     --elimIdeal := idealMplToM2(results_0);
     -- calcTime := results_1;
-    removeFile(fileMplCode);
+    --removeFile(fileMplCode);
     removeFile(fileMplOut);
 
     -- return
@@ -448,6 +453,7 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
 saturateElimMpl = (I,polyn,toKeep,timeLimit) -> (
     fileMplCode := temporaryFileName() | ".mpl";
     fileMplOut := temporaryFileName();
+    print(fileMplCode);
 
     -- fill maple file and execute (TODO: put template as .mpl file into lib/
     --     that is filled as for compareFromDbm function)
@@ -474,7 +480,7 @@ saturateElimMpl = (I,polyn,toKeep,timeLimit) -> (
     -- retrieve result
     fileMplOut;
     results := lines(get(fileMplOut));
-    removeFile(fileMplCode);
+    --removeFile(fileMplCode);
     removeFile(fileMplOut);
     return results_0;
 )

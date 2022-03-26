@@ -6,6 +6,15 @@ from joblib import Parallel, delayed
 import numpy as np
 import time
 
+# script that computes the equivalence classes for interesting partitions based
+# on the conjecture and then prints the distribution of sizes of
+# equivalence classes. This code uses mutliple threads indicated  
+# by 'njobs'. On a machine with 32 cores and 128GB RAM the script took
+# less than 1h with inputs nodes=[3,4,5,6] and njobs=32.
+
+# parameters
+nodes = [3,4]
+njobs = 2
 
 # helping functions
 def generateDAGs(nodes,nparalleljobs=1):
@@ -111,11 +120,6 @@ def compute_properties(edges):
         properties.append((skeleton,unshielded_colliders,fixed_edges))
     return properties
 
-
-
-# parameters
-nodes = [4]
-njobs = 1
 
 # main function
 tic = time.perf_counter()
