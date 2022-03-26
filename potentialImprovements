@@ -1,3 +1,0 @@
-This file contains potential ideas for improvement:
-- exportGraphsToLatex: make the script more general such that it can export any equivalence classes to latex reasonably
-- add parallelisation to lib/improvedVersion.m2

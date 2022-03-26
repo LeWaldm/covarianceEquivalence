@@ -1,14 +1,9 @@
--- checks if equivalence classes from different files are identical
 load "lib/loadAndSaveResults.m2"
 
-
--- two lists of file paths to compare, i.e. files1_i compared with files2_i
-files1 = {
-
-}
-files2 = {
-
-}
+-- This script checks if equivalence classes from different files are identical.
+-- The parameters are two lists of file paths to compare, i.e. files1_i compared with files2_i
+files1 = {}
+files2 = {}
 
 for i from 0 to #files1-1 do (
 

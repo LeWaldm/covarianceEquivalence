@@ -1,4 +1,6 @@
 load "lib/exploreResults.m2"
+-- This script checks the conjecture from the thesis.
+
 
 -- load computed results with dags
 fileNames := {
