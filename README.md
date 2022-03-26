@@ -5,7 +5,7 @@ This code was tested in Macaulay2 1.19.1 and Maple 2022 under Ubuntu 20.04LTS.
 ### Overview
 
 - best check startHere.m2 and follow the instructions to just explore the results
-- lib/ contains the main computational functions
+- lib/ contains the main computational functions where lib/improvedVersion is the main computational script
 - results/ contains the results, the file names should give enough information about the file contents
 - multiple scripts are found in the root folder; they are also useful, but not core functionality as the scripts in lib/
 
