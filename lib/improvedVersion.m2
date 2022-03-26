@@ -3,8 +3,8 @@ load "lib/loadAndSaveResults.m2"
 
 -- parameters
 n = 4;
-engine = "maple"                -- one of "maple" or "m2"
-graphProps = "simpleDigraphs"         -- one of "dags","simpleDigraphs","digraphs"
+engine = "maple"                    -- one of "maple" or "m2"
+graphProps = "simpleDigraphs"       -- one of "dags","simpleDigraphs","digraphs"
 saveFileBase = "results2/crashtest" -- graphProps and variance partition added automatically
 
 -- generate sets
@@ -31,8 +31,6 @@ elapsedTime (
     allPermusStr := apply(
         permus, p -> hashTable(for i from 0 to n-1 list (toString(i+1),toString(p_i))));
     basePartitions = generateBasePartitions(n);
-    print(basePartitions);
-    basePartitions = {{{1,2},{3},{4}}};
     env = createEnv(n);
     saveFileBase = concatenate(saveFileBase, "_", graphProps);
 )
