@@ -514,7 +514,7 @@ compareVanIdeals = (vanIdeals,compMethod) -> (
         nIdeals := #vanIdeals;
         equivResults := {};
         elapsedTime for i from 0 to nIdeals-2 do (
-            progressBar(i/nIdeals);
+            progressBar(i,nIdeals);
             --print(concatenate(toString(i+1),"/",toString(#dags-1)));        
             for j from i+1 to nIdeals-1 do(
                 if toString(vanIdeals_i) == "ideal()" then (
