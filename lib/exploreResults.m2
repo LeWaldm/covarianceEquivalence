@@ -13,9 +13,18 @@ printGroupCounts = groups -> (
         else
             groupCounts#(#(groups_i)) = 1 + groupCounts#(#(groups_i));
     );
+    nGroups=0;
     for i from 0 to max(keys(groupCounts)) do
         if groupCounts#?i then 
-            print(concatenate("Number groups with ",toString(i), " member(s): ",toString(groupCounts#i)));
+            nGroups = nGroups + groupCounts#i;
+    for i from 0 to max(keys(groupCounts)) do
+        if groupCounts#?i then (
+            prc = (numeric(groupCounts#i/nGroups*100));
+            print(concatenate("Number groups with ",toString(i), 
+                    " member(s): ",toString(groupCounts#i),
+                    " (", toString(prc), "%)"));
+        );
+    print(concatenate("Total number of groups: ", toString(nGroups)));
 )
 
 -- prints the digraphs in all groups with more than one memember

@@ -32,7 +32,7 @@ printGroupCounts(groups);
 showNGroupsWithMMembers(graphs,groups,2,3);
 
 -- show the covariance equivalence groups of the specific graph G
-G = digraph({{1,2},{2,3}});
+G = digraph({{1,2},{2,3}})
 showCovEqGroupOf(graphs,groups,G);
 
 

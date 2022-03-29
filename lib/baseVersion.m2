@@ -1,4 +1,5 @@
 load "lib/utils.m2"
+load "lib/loadAndSaveResults.m2"
 
 -- compute and compare ALL vanishing Ideals of some given 
 -- variance partitions. This is inefficient and just included for
@@ -19,7 +20,7 @@ load "lib/utils.m2"
 n = 3;
 engine = "maple"                -- one of "maple" or "m2"
 graphProps = "digraphs"         -- one of "dags","simpleDigraphs","digraphs"
-saveFileBase = "results2/4noddsfses" -- graphProps and variance partition added automatically
+saveFileBase = "results/3nodes" -- graphProps and variance partition added automatically
 
 -- generate sets
 print("------------------------------------------------------------");

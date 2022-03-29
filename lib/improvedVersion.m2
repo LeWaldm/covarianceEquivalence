@@ -18,10 +18,10 @@ load "lib/loadAndSaveResults.m2"
 --      with underline. A new file for each partition is created. The partition
 --      is also added with underline.
 
-n = 4;
+n = 3;
 engine = "maple"
-graphProps = "simpleDigraphs"
-saveFileBase = "results/4nodes"
+graphProps = "dags"
+saveFileBase = "results/3nodes"
 
 -- generate sets
 print("------------------------------------------------------------");
@@ -52,7 +52,7 @@ elapsedTime (
 )
 
 
--- internal functions
+-- internal permutation functions
 permutePtt := (ptt,permu) -> (
     return unifyPtt(n,apply(ptt,p->(apply(p,val->permu#val))));
 );
@@ -89,33 +89,42 @@ for ptt in basePartitions do (
     print("-------------------------------------------------");
     print(concatenate("Partition: ", toString(ptt)));
 
+    -- compute valid partitions
+    validPermusInt := new MutableHashTable;
+    validPermusStr := new MutableHashTable;
+    c := 0;
+    for p from 0 to #allPermusInt-1 do 
+        if permutePtt(ptt,allPermusInt_p) == ptt then (
+            validPermusInt#c = allPermusInt_p;
+            validPermusStr#c = allPermusStr_p;
+            c = c+1;
+        );
+    nValidPermus := c;
+
+
     -- calculate all vanishing ideals
     vanIdealDict = new MutableHashTable;
     alreadyComputed = new MutableHashTable;
     print("Computing vanishing ideals ...");
     computedVanishingIdeal = 0;
     elapsedTime for graph in graphs do (
-        --progressBar(computedVanishingIdeal,#graphs);
+        progressBar(computedVanishingIdeal,#graphs);
 
         -- compute vanishing ideal
         if alreadyComputed#?graph then
             continue;
-        print(graph);
         I = toString(vanishingIdeal(env,graph,ptt,engine,-1,cyclicAllowed));
         vanIdealDict#graph = I;
         alreadyComputed#graph = 1;
 
         -- permute vanishing ideal
-        for p from 0 to #allPermusInt-1 do (
-            permuPtt = permutePtt(ptt,allPermusInt_p);
-            if permuPtt == ptt then (
-                permuGraph = permuteGraph(graph,allPermusInt_p);
-                if not alreadyComputed#?permuGraph then(
-                    permuIdeal = permuteIdeal(I,allPermusStr_p);
-                    vanIdealDict#permuGraph = permuIdeal;
-                    alreadyComputed#permuGraph = 1;
-                    computedVanishingIdeal = computedVanishingIdeal+1;
-                );
+        for p from 0 to nValidPermus-1 do (
+            permuGraph = permuteGraph(graph,validPermusInt#p);
+            if not alreadyComputed#?permuGraph then(
+                permuIdeal = permuteIdeal(I,validPermusStr#p);
+                vanIdealDict#permuGraph = permuIdeal;
+                alreadyComputed#permuGraph = 1;
+                computedVanishingIdeal = computedVanishingIdeal+1;
             );
         );
         actuallyComputed = actuallyComputed + 1;

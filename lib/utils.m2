@@ -192,8 +192,6 @@ generateDAGs = nodes -> (
 )
 
 
-
-
 -- lists all partitions of set s
 allPartitions = s -> (
     p := partitions(length(toList(s)));
@@ -319,7 +317,6 @@ vanishingIdeal = args -> (
     
     -- calculate the vanishing ideal as elimination ideal by eliminating all Lambda entries
     elimIdeal := null;
-    print(saturateIdeal);
     if methodElim == "m2" then (
         if saturateIdeal then
             I = saturate(I, det(id_(R^n) - L));
@@ -333,11 +330,6 @@ vanishingIdeal = args -> (
         error("Illegal value for engine.");
     return elimIdeal;
 )
--- vanishingIdeal (args) := args -> vanishingIdeal(args);
--- vanishingIdeal (List,Digraph) := (e,d) -> vanishingIdeal1(e,d,{},"m2",-1,false);
--- vanishingIdeal (List,Digraph,List) := (e,d,l) -> vanishingIdeal1(e,d,l,"m2",-1,false);
--- vanishingIdeal (List,Digraph,List,String) := (e,d,l,m) -> vanishingIdeal1(e,d,l,m,-1,false);
-
 
 -- takes string replaces '_' by '__'
 addUnderline = str -> (
@@ -354,8 +346,7 @@ addUnderline = str -> (
     return concatenate(for i from 0 to idx-1 list l#i);
 );
 
--- gets ideal and returns a string of maple code that generates this ideal
--- in maple
+-- gets ideal and returns a string of maple code that generates this ideal in maple
 idealM2ToMpl = (ideal) -> (
     str := substring(toString(ideal),5);
     str = addUnderline(str);
@@ -421,8 +412,7 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
     fileMplCode := temporaryFileName() | ".mpl";
     fileMplOut := temporaryFileName();
 
-    -- fill maple file and execute (TODO: put template as .mpl file into lib/
-    --     that is filled as for compareFromDbm function)
+    -- fill maple file and execute
     fileMplCode << "with(PolynomialIdeals):";
     filestr := concatenate("\"",toString(fileMplOut),"\"");
     fileMplCode << "fileNameWrite := " << filestr << ":";
@@ -445,11 +435,10 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
     results := lines(get(fileMplOut));
     --elimIdeal := idealMplToM2(results_0);
     -- calcTime := results_1;
-    --removeFile(fileMplCode);
+    removeFile(fileMplCode);
     removeFile(fileMplOut);
 
     -- return
-    --return elimIdeal;
     return results_0;
 )
 
@@ -457,10 +446,9 @@ eliminateMaple = (I,toKeep,timeLimit) -> (
 saturateElimMpl = (I,polyn,toKeep,timeLimit) -> (
     fileMplCode := temporaryFileName() | ".mpl";
     fileMplOut := temporaryFileName();
-    print(fileMplCode);
+    --print(fileMplCode); -- uncomment to see current maple file exeecuted
 
-    -- fill maple file and execute (TODO: put template as .mpl file into lib/
-    --     that is filled as for compareFromDbm function)
+    -- fill maple file and execute
     fileMplCode << "with(PolynomialIdeals):";
     filestr := concatenate("\"",toString(fileMplOut),"\"");
     fileMplCode << "fileNameWrite := " << filestr << ":";
@@ -484,7 +472,7 @@ saturateElimMpl = (I,polyn,toKeep,timeLimit) -> (
     -- retrieve result
     fileMplOut;
     results := lines(get(fileMplOut));
-    --removeFile(fileMplCode);
+    removeFile(fileMplCode); -- comment line to keep file
     removeFile(fileMplOut);
     return results_0;
 )
