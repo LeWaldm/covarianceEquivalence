@@ -1,4 +1,4 @@
-This code was developed as part of the Bachelor thesis 'Computational Study of Equivalence of Graphical Models with Groupwise Equal Error variances' at the chair of Mathematical Statistics at the Technical University of Munich (TUM) in 2022. In case of any questions, please reach out to leonard.waldmann@gmx.de
+This code was developed as part of the Bachelor thesis 'Computational Study of Equivalence of Graphical Models with Groupwise Equal Error variances' at the chair of Mathematical Statistics at the Technical University of Munich (TUM) in 2022. In case of any questions, please reach out to leonard.waldmann@gmx.de.
 
 This code was tested in Macaulay2 1.19.1 and Maple 2022 under Ubuntu 20.04 LTS.
 
