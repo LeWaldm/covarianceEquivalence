@@ -284,7 +284,7 @@ vanishingIdeal = args -> (
     if #args >= 6 then 
         saturateIdeal = args_5
     else 
-        saturateIdeal = false;
+        saturateIdeal = true;
     if methodElim == "m2" and timeLimit > 0 then 
         print("Warning: time limit only executed for elimination with maple.");
 

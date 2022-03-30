@@ -1,4 +1,4 @@
--- SCRIPT TO EXPLORE THE RESULTS
+-- SCRIPT TO EXPLORE THE RESULTS and EXPLAIN BASIC FUNCTIONALITY
 
 -- Best load this script, the 'lib/exploreResults.m2" and
 -- the result files from 'results/...' you are interested in into
@@ -51,3 +51,28 @@ conjectureChecker(graphs,groups,ptt,conj)
 
 -- check the conjecture from the thesis (implemented in lib/exploreResults.m2)
 conjectureChecker(graphs,groups,ptt,conjectureThesis)
+
+
+-------------------------
+-- computing specific vanishing ideals
+-------------------------
+load "lib/utils.m2"
+
+-- generate polynomial ring and other variables 
+env = createEnv(3)
+
+-- just vanishing Ideal without any assumptions
+G = digraph({{1,2},{2,3}})
+vanishingIdeal(env,G)
+
+-- vanishing Ideal ... 
+-- ... under some partition {{1,2},{3}}
+vanishingIdeal(env,G,{{1,2},{3}})
+
+-- ... with maple (if error see docs) (returns ideal as Maple string)
+I = vanishingIdeal(env,G,{{1,2},{3}},"maple")
+idealMplToM2(I)
+
+-- ... of cyclic graph
+G' = digraph({{1,2},{2,3},{3,1}})
+vanishingIdeal(env,G',{{1,2},{3}})

@@ -23,7 +23,6 @@ def generateDAGs(nodes,nparalleljobs=1):
     # generate powerset
     nUndirectedEdges = int(nodes*(nodes-1)/2)
     allCombinations = list(product([-1,0,1], repeat=nUndirectedEdges))
-    # allCombinations = generateAllCombinations([-1,0,1],nUndirectedEdges)
 
     # function to generate DAG
     def createDAGs_from_combs(nodes,allCombinations):
