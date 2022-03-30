@@ -127,21 +127,15 @@ isEqualDags = (d1,d2) -> (
 -- conjecture of the thesis
 conjectureThesis = (ptt,G1,G2) -> (
 
-    -- print(G1);
-    -- print(G2);
-
     -- (0) same vertices?
     if not sort(vertices(G1)) == sort(vertices(G2)) then (
-        -- print("vertices");
         return false;
     );
         
-
     -- (i) identical skeleton?
     skel1 := set(apply(edges(G1), e->set(e)));
     skel2 := set(apply(edges(G2), e->set(e)));
     if not (isSubset(skel1,skel2) and isSubset(skel2,skel1)) then (
-        -- print("skeleton");
         return false;
     );
 
@@ -175,7 +169,6 @@ conjectureThesis = (ptt,G1,G2) -> (
     unshCollG1 := compUnshColl(G1);
     unshCollG2 := compUnshColl(G2);
     if not (isSubset(unshCollG1,unshCollG2) and isSubset(unshCollG2,unshCollG1)) then (
-        -- print("colliders");
         return false;
     );
 
@@ -202,7 +195,6 @@ conjectureThesis = (ptt,G1,G2) -> (
     fixedEdgesG1 := compFixedEdges(G1,fixedVertices);
     fixedEdgesG2 := compFixedEdges(G2,fixedVertices);
     if not (isSubset(fixedEdgesG1,fixedEdgesG2) and isSubset(fixedEdgesG2,fixedEdgesG1)) then (
-        -- print("fixed edges");
         return false;
     );
     return true;
@@ -238,15 +230,12 @@ conjectureChecker = (graphs,groupsComp,ptt,conjFunc) -> (
     else 
         print("Necessary? ----> NO");
 
-    --print("---------------------------------------------------------------------");
-    -- check if conjFunc sufficient
     -- * calculate equivalence groups according to conjFunc
     equivalences := new MutableHashTable;
     counter := 0;
     for i from 0 to #graphs-2 do 
         for j from i+1 to #graphs-1 do (
             bool = conjFunc(ptt,graphs_i,graphs_j);
-            -- print(bool);
             if bool then (
                 equivalences#counter = {i,j};
                 counter = counter + 1;

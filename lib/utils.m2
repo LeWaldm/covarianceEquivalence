@@ -483,7 +483,6 @@ saturateElimMpl = (I,polyn,toKeep,timeLimit) -> (
 progressBar = (curr,goal) -> (
     prc = round(numeric(curr/goal)*100);
     cmmd = concatenate("printf '",toString(curr),"/",toString(goal), " (",toString(prc)," percent)\r'");
-    --print(cmmd);
     run(cmmd);
 )
 
